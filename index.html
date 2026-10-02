@@ -6,17 +6,77 @@
   <title>Meu Primeiro Site - Index 2</title>
   <link rel="stylesheet" href="style.css">
 </head>
-<body> 
-<h1> Oi, faça o login </h1>
-<p> digite seus dados para começar bb </p>
-<div class= "campo input">
-<div class= "login-card">
-<label for= usuario>Usuário 
-<input type= "text" id= usuario> </div>
-<div class= "campo-input">
-<label for= "senha">Senha </label>
-<input type= "password" id= "senha" placeholder= "Digite sua senha"> </div>
-<button id= "BtnComecar">Entrar </button>
-<div>
-</div>
+<body>
 
+  <!-- TELA 1 (Login) -->
+  <div id="tela1">
+    <h1>Acessar Conta</h1>
+    <p>Digite seus dados para começar</p>
+
+    <div class="login-card">
+      <div class="campo-input">
+        <label for="usuario">Usuário</label>
+        <input type="text" id="usuario" placeholder="Digite seu nome..." autocomplete="off">
+      </div>
+
+      <div class="campo-input">
+        <label for="senha">Senha</label>
+        <input type="password" id="senha" placeholder="Digite sua senha...">
+      </div>
+
+      <button id="btnComecar">Entrar</button>
+    </div>
+  </div>
+
+  <!-- TELA 2 (Carrossel) -->
+  <div id="tela2" class="escondida">
+    <h1>Bem-vindo ao meu site!!</h1>
+
+    <div class="caixa-container">
+      <div class="quadradinho">
+        <span class="tag">DEV LOG</span>
+        <h3>✨ Informação 1</h3>
+        <p>Bem vindos ao meu site, aqui estou aprendendo a programar um site!</p>
+      </div>
+
+      <div class="quadradinho">
+        <span class="tag">PROJETOS</span>
+        <h3>🚀 Informação 2</h3>
+        <p>Aqui podes colocar novidades e conquistas do projeto.</p>
+      </div>
+
+      <div class="quadradinho">
+        <span class="tag">EXTRA</span>
+        <h3>🎮 Informação 3</h3>
+        <p>Deslize para os lados para navegar entre os cartões.</p>
+      </div>
+
+      <div class="quadradinho">
+        <span class="tag">AVANÇAR</span>
+        <h3>🔥 Ir para Tela 3</h3>
+        <p>Clique no botão abaixo para ir para a próxima página.</p>
+        <button id="btnipmlbb">Ir para Tela 3</button>
+      </div>
+    </div>
+
+    <button id="btnVoltar">Voltar ao Início</button>
+  </div>
+
+  <!-- TELA 3 -->
+  <div id="tela3" class="escondida">
+    <h1>Bem-vindo à Tela 3!!</h1>
+
+    <div class="caixa-container">
+      <div class="quadradinho">
+        <span class="tag">TELA 3</span>
+        <h3>🔥 Conteúdo Secreto</h3>
+        <p>conteúdo da terceira tela aq bb.</p>
+      </div>
+    </div>
+
+    <button id="btnVoltarTela3">Voltar à Tela 2</button>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
