@@ -1,0 +1,170 @@
+/* 1. Importa a fonte local */
+@font-face {
+  font-family: 'SFUIDisplay-Regular';
+  src: url('SFUIDisplay-Regular.otf');
+}
+
+/* 2. Aplica a fonte em todos os elementos */
+* {
+  font-family: 'SFUIDisplay-Regular', Helvetica, sans-serif;
+  box-sizing: border-box;
+}
+
+/* 3. Fundo e estrutura principal do site */
+body {
+  background: white;
+  min-height: 100vh;
+  margin: 0;
+  color: black;
+  padding: 30px;
+}
+
+/* 4. Estilo global dos botões */
+button {
+  background:black;
+  color: white;
+  padding: 14px 28px;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+
+button:hover {
+  transform: scale(1.08);
+  box-shadow: 0 6px 20px rgba(255, 0, 85, 0.7);
+}
+
+button:active {
+  transform: scale(0.95);
+}
+
+/* 5. Classe para ocultar qualquer tela */
+.escondida {
+  display: none !important;
+}
+
+/* --- ESTILO DAS TELAS (Tela 2, Tela 3, etc.) --- */
+#tela2, #tela3 {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  padding: 30px 20px;
+  box-sizing: border-box;
+  background: radial-gradient(circle at top right, #1a0826, #0a0512);
+  color: white;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+#tela2 h1, #tela3 h1 {
+  font-size: 26px;
+  font-weight: 900;
+  margin: 0 0 15px 0;
+  background: linear-gradient(90deg, #ff0055, #ffaa00);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* --- CONTAINER DO CARROSSEL (LADO A LADO) --- */
+.caixa-container {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  overflow-x: auto !important;
+  scroll-snap-type: x mandatory;
+  gap: 15px;
+  padding: 10px 5px 20px 5px;
+  -webkit-overflow-scrolling: touch;
+}
+
+.caixa-container::-webkit-scrollbar {
+  display: none;
+}
+
+/* --- ESTILO DOS CARTÕES --- */
+.quadradinho {
+  flex: 0 0 82% !important;
+  min-width: 82%;
+  scroll-snap-align: center;
+  
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-left: 4px solid #ff0055;
+  border-radius: 18px;
+  padding: 20px;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  box-sizing: border-box;
+}
+
+.quadradinho h3 {
+  margin: 0 0 8px 0;
+  font-size: 18px;
+  color: #ff5588;
+}
+
+.quadradinho p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #d1d1e0;
+}
+
+.tag {
+  display: inline-block;
+  background: rgba(255, 0, 85, 0.2);
+  color: #ff5588;
+  font-size: 11px;
+  font-weight: bold;
+  padding: 4px 10px;
+  border-radius: 20px;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+}
+
+/* --- BOTÕES DENTRO DAS TELAS --- */
+#tela2 button, #tela3 button {
+  position: static !important;
+  align-self: center;
+  margin-top: 15px;
+  width: 100%;
+  max-width: 260px;
+}
+/* Estilo para as imagens dos cartões */
+.imagem-card {
+  width: 100%;             /* Preenche toda a largura do cartão */
+  height: 140px;           /* Define uma altura fixa e uniforme */
+  object-fit: cover;       /* Recorta a imagem proporcionalmente sem esticar */
+
+  margin-bottom: 12px;     /* Espaço abaixo da imagem */
+  border: 1px solid rgba(255, 255, 255, 0.15); /* Borda brilhante sutil */
+}
+
+/* --- 1. DEFINIÇÃO DA ANIMAÇÃO DE BAIXO PARA CIMA --- */
+@keyframes subirEntrada {
+  from {
+    opacity: 0;
+    transform: translateY(50px); /* Começa 50px mais para baixo */
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);    /* Termina na posição normal */
+  }
+}
+
+/* --- 2. APLICA A ANIMAÇÃO QUANDO A TELA APARECE --- */
+/* O :not(.escondida) garante que a animação toca sempre que a tela fica visível */
+#tela2:not(.escondida), 
+#tela3:not(.escondida) {
+  animation: subirEntrada 0.5s ease-out forwards;
+}
+
+/* --- 3. ANIMAÇÃO NOS CARTÕES (QUADRADINHOS) --- */
+#tela2:not(.escondida) .quadradinho,
+#tela3:not(.escondida) .quadradinho {
+  animation: subirEntrada 0.6s ease-out forwards;
