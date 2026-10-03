@@ -2,7 +2,9 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/fireba
 import { 
   getAuth, 
   createUserWithEmailAndPassword, 
-  signInWithEmailAndPassword 
+  signInWithEmailAndPassword,
+  onAuthStateChanged,
+  signOut
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 import { 
   getFirestore, 
@@ -11,17 +13,19 @@ import {
   serverTimestamp 
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-// Configuração do Firebase
+// Configuração oficial do seu Firebase (meu-site-oficial-1e82d)
 const firebaseConfig = {
-  apiKey: "SUA_API_KEY_AQUI",
-  authDomain: "SEU_PROJETO.firebaseapp.com",
-  projectId: "SEU_PROJETO",
-  storageBucket: "SEU_PROJETO.appspot.com",
-  messagingSenderId: "SEU_SENDER_ID",
-  appId: "SEU_APP_ID"
+  apiKey: "AIzaSyA5ON_73pmPWuhxuV8RXqQUtF7-RUiR0DY",
+  authDomain: "meu-site-oficial-1e82d.firebaseapp.com",
+  databaseURL: "https://meu-site-oficial-1e82d-default-rtdb.firebaseio.com",
+  projectId: "meu-site-oficial-1e82d",
+  storageBucket: "meu-site-oficial-1e82d.firebasestorage.app",
+  messagingSenderId: "999359902580",
+  appId: "1:999359902580:web:ab2950db66fa76146cb221",
+  measurementId: "G-1MDQVL5TH3"
 };
 
-// Inicializações
+// Inicializações do Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
@@ -29,44 +33,8 @@ const db = getFirestore(app);
 let modoCadastro = false;
 
 // ==========================================
-// FUNÇÃO PARA SALVAR O PEDIDO NO FIRESTORE
+// FUNÇÕES GLOBAIS DE NAVEGAÇÃO E UTILITÁRIOS
 // ==========================================
-async function salvarPedidoTarot() {
-  const usuario = auth.currentUser;
-
-  if (!usuario) {
-    alert("Você precisa estar logado para fazer um pedido!");
-    return;
-  }
-
-  const tipo = document.getElementById('tipoTiragem').value;
-  const pergunta = document.getElementById('perguntaTarot').value.trim();
-
-  if (!pergunta) {
-    alert("Por favor, escreva a sua pergunta ou tema da tiragem!");
-    return;
-  }
-
-  try {
-    // Cria um documento na coleção 'pedidos_tarot'
-    const docRef = await addDoc(collection(db, "pedidos_tarot"), {
-      userId: usuario.uid,
-      userEmail: usuario.email,
-      tipoTiragem: tipo,
-      pergunta: pergunta,
-      status: "pendente",
-      criadoEm: serverTimestamp()
-    });
-
-    alert("✨ Pedido gravado no banco de dados! Agora faça o Pix e confirme pelo WhatsApp.");
-    document.getElementById('perguntaTarot').value = ''; // Limpa o campo
-  } catch (erro) {
-    console.error("Erro ao salvar no Firestore:", erro);
-    alert("Erro ao registrar pedido: " + erro.message);
-  }
-}
-
-// Funções globais de navegação
 window.trocarTela = function(telaAtual, proximaTela) {
   const atual = document.getElementById(telaAtual);
   const proxima = document.getElementById(proximaTela);
@@ -74,6 +42,8 @@ window.trocarTela = function(telaAtual, proximaTela) {
   if (atual && proxima) {
     atual.classList.add('escondida');
     proxima.classList.remove('escondida');
+  } else {
+    console.warn(`Navegação falhou: verifique se id="${telaAtual}" e id="${proximaTela}" existem no seu HTML.`);
   }
 };
 
@@ -91,7 +61,62 @@ window.copiarPix = function(chave) {
 };
 
 // ==========================================
-// EVENTOS DOS BOTÕES
+// OUVINTE DE SESSÃO (MANTÉM LOGADO AO RECARREGAR)
+// ==========================================
+onAuthStateChanged(auth, (usuario) => {
+  if (usuario) {
+    console.log("Usuário logado:", usuario.email);
+    const tela1 = document.getElementById('tela1');
+    if (tela1 && !tela1.classList.contains('escondida')) {
+      window.trocarTela('tela1', 'tela2');
+    }
+  } else {
+    console.log("Nenhum usuário logado.");
+    window.trocarTela('tela2', 'tela1');
+    window.trocarTela('tela3', 'tela1');
+    window.trocarTela('tela4', 'tela1');
+  }
+});
+
+// ==========================================
+// FUNÇÃO PARA SALVAR O PEDIDO NO FIRESTORE
+// ==========================================
+async function salvarPedidoTarot() {
+  const usuario = auth.currentUser;
+
+  if (!usuario) {
+    alert("Você precisa estar logado para fazer um pedido!");
+    return;
+  }
+
+  const tipo = document.getElementById('tipoTiragem')?.value;
+  const pergunta = document.getElementById('perguntaTarot')?.value.trim();
+
+  if (!pergunta) {
+    alert("Por favor, escreva a sua pergunta ou tema da tiragem!");
+    return;
+  }
+
+  try {
+    await addDoc(collection(db, "pedidos_tarot"), {
+      userId: usuario.uid,
+      userEmail: usuario.email,
+      tipoTiragem: tipo,
+      pergunta: pergunta,
+      status: "pendente",
+      criadoEm: serverTimestamp()
+    });
+
+    alert("✨ Pedido gravado no banco de dados! Agora faça o Pix e confirme pelo WhatsApp.");
+    document.getElementById('perguntaTarot').value = '';
+  } catch (erro) {
+    console.error("Erro ao salvar no Firestore:", erro);
+    alert("Erro ao registrar pedido: " + erro.message);
+  }
+}
+
+// ==========================================
+// EVENTOS DOS BOTÕES E NAVEGAÇÃO COMPLETA
 // ==========================================
 document.addEventListener('DOMContentLoaded', () => {
   const btnAcao = document.getElementById('btnAcao');
@@ -101,7 +126,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const textoAlternar = document.getElementById('textoAlternar');
   const btnEnviarPedido = document.getElementById('btnEnviarPedido');
 
-  // Evento do botão de enviar pedido do Tarot
+  // Enviar pedido do Tarot no Firestore (Tela 4)
   if (btnEnviarPedido) {
     btnEnviarPedido.addEventListener('click', salvarPedidoTarot);
   }
@@ -113,16 +138,16 @@ document.addEventListener('DOMContentLoaded', () => {
       modoCadastro = !modoCadastro;
 
       if (modoCadastro) {
-        tituloLogin.textContent = "Criar Conta";
-        subtituloLogin.textContent = "Crie uma conta para acessar a loja";
-        btnAcao.textContent = "Cadastrar";
-        textoAlternar.textContent = "Já tem uma conta?";
+        if (tituloLogin) tituloLogin.textContent = "Criar Conta";
+        if (subtituloLogin) subtituloLogin.textContent = "Crie uma conta para acessar a loja";
+        if (btnAcao) btnAcao.textContent = "Cadastrar";
+        if (textoAlternar) textoAlternar.textContent = "Já tem uma conta?";
         linkAlternar.textContent = "Entrar";
       } else {
-        tituloLogin.textContent = "Acessar Conta";
-        subtituloLogin.textContent = "Digite seus dados para começar";
-        btnAcao.textContent = "Entrar";
-        textoAlternar.textContent = "Não tem uma conta?";
+        if (tituloLogin) tituloLogin.textContent = "Acessar Conta";
+        if (subtituloLogin) subtituloLogin.textContent = "Digite seus dados para começar";
+        if (btnAcao) btnAcao.textContent = "Entrar";
+        if (textoAlternar) textoAlternar.textContent = "Não tem uma conta?";
         linkAlternar.textContent = "Cadastrar-se";
       }
     });
@@ -131,8 +156,8 @@ document.addEventListener('DOMContentLoaded', () => {
   // Autenticação (Login / Cadastro)
   if (btnAcao) {
     btnAcao.addEventListener('click', () => {
-      const email = document.getElementById('usuario').value.trim();
-      const senha = document.getElementById('senha').value.trim();
+      const email = document.getElementById('usuario')?.value.trim();
+      const senha = document.getElementById('senha')?.value.trim();
 
       if (!email || !senha) {
         alert('Por favor, preencha o e-mail e a senha!');
@@ -141,23 +166,42 @@ document.addEventListener('DOMContentLoaded', () => {
 
       if (modoCadastro) {
         createUserWithEmailAndPassword(auth, email, senha)
-          .then(() => {
-            alert('✨ Conta criada na nuvem com sucesso!');
-            window.trocarTela('tela1', 'tela2');
-          })
-          .catch((error) => alert('Erro: ' + error.message));
+          .catch((error) => alert('Erro no cadastro: ' + error.message));
       } else {
         signInWithEmailAndPassword(auth, email, senha)
-          .then(() => {
-            alert('Bem-vindo(a)!');
-            window.trocarTela('tela1', 'tela2');
-          })
           .catch((error) => alert('Erro no login: ' + error.message));
       }
     });
   }
 
-  document.getElementById('btnVoltar')?.addEventListener('click', () => window.trocarTela('tela2', 'tela1'));
-  document.getElementById('btnipmlbb')?.addEventListener('click', () => window.trocarTela('tela2', 'tela3'));
-  document.getElementById('btnVoltarTela3')?.addEventListener('click', () => window.trocarTela('tela3', 'tela2'));
+  // ==========================================
+  // NAVEGAÇÃO COMPLETA E LOGOUT (TELAS 1 A 4)
+  // ==========================================
+
+  // Tela 2 -> Sair da conta (Logout)
+  document.getElementById('btnVoltar')?.addEventListener('click', () => {
+    signOut(auth).then(() => {
+      alert("Sessão encerrada com sucesso.");
+    }).catch((error) => alert("Erro ao sair: " + error.message));
+  });
+
+  // Tela 2 -> Tela 3
+  document.getElementById('btnipmlbb')?.addEventListener('click', () => {
+    window.trocarTela('tela2', 'tela3');
+  });
+
+  // Tela 3 -> Tela 2 (Voltar)
+  document.getElementById('btnVoltarTela3')?.addEventListener('click', () => {
+    window.trocarTela('tela3', 'tela2');
+  });
+
+  // Tela 3 -> Tela 4 (Ir para a Loja de Tarot)
+  document.getElementById('btnIrTela4')?.addEventListener('click', () => {
+    window.trocarTela('tela3', 'tela4');
+  });
+
+  // Tela 4 -> Tela 3 (Voltar)
+  document.getElementById('btnVoltarTela4')?.addEventListener('click', () => {
+    window.trocarTela('tela4', 'tela3');
+  });
 });
