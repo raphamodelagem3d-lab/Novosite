@@ -14,15 +14,25 @@
     <p>Digite seus dados para começar</p>
 
     <div class="login-card">
-      <div class="campo-input">
-        <label for="usuario">Usuário</label>
-        <input type="text" id="usuario" placeholder="Digite seu nome..." autocomplete="off">
-      </div>
+ <div class="campo-input">
+  <label for="usuario">E-mail</label>
+  <input
+    type="email"
+    id="usuario"
+    placeholder="Digite seu e-mail..."
+    autocomplete="email"
+  >
+</div>
 
-      <div class="campo-input">
-        <label for="senha">Senha</label>
-        <input type="password" id="senha" placeholder="Digite sua senha...">
-      </div>
+<div class="campo-input">
+  <label for="senha">Senha</label>
+  <input
+    type="password"
+    id="senha"
+    placeholder="Digite sua senha..."
+    autocomplete="current-password"
+  >
+</div>
 <button type="button" id="btnGoogle">Entrar com o Google</button>
 
       <button id="btnComecar">Entrar</button>
