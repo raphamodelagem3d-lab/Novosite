@@ -100,124 +100,157 @@ onAuthStateChanged(auth, (usuario) => {
 // ==========================================
 // BOTÕES
 // ==========================================
+const btnCriarConta = document.getElementById("btnCriarConta");
 
-document.addEventListener("DOMContentLoaded", () => {
+if (btnCriarConta) {
+
+  btnCriarConta.addEventListener("click", async () => {
+
+    const email = document
+      .getElementById("usuario")
+      .value
+      .trim();
+
+    const senha = document
+      .getElementById("senha")
+      .value;
+
+    const mensagem = document.getElementById("mensagemLogin");
 
 
-  // ========================================
-  // LOGIN COM E-MAIL E SENHA
-  // ========================================
+    // ================================
+    // VERIFICAR E-MAIL
+    // ================================
 
-  const btnComecar = document.getElementById("btnComecar");
+    if (!email) {
+      mensagem.textContent = "⚠️ Digite seu e-mail.";
+      mensagem.className = "erro";
+      return;
+    }
 
-  if (btnComecar) {
+    if (!email.includes("@")) {
+      mensagem.textContent = "❌ Digite um e-mail válido.";
+      mensagem.className = "erro";
+      return;
+    }
 
-    btnComecar.addEventListener("click", async () => {
 
-      const email = document.getElementById("usuario")?.value.trim();
-      const senha = document.getElementById("senha")?.value;
+    // ================================
+    // VERIFICAR SENHA
+    // ================================
 
-      if (!email || !senha) {
-        alert("⚠️ Digite seu e-mail e sua senha.");
-        return;
-      }
+    if (!senha) {
+      mensagem.textContent = "⚠️ Digite uma senha.";
+      mensagem.className = "erro";
+      return;
+    }
 
-      try {
+    if (senha.length < 6) {
+      mensagem.textContent =
+        "❌ A senha precisa ter pelo menos 6 caracteres.";
 
-        await signInWithEmailAndPassword(
+      mensagem.className = "erro";
+      return;
+    }
+
+
+    // ================================
+    // CRIAR CONTA NO FIREBASE
+    // ================================
+
+    try {
+
+      mensagem.textContent = "Criando sua conta...";
+      mensagem.className = "carregando";
+
+      const resultado =
+        await createUserWithEmailAndPassword(
           auth,
           email,
           senha
         );
 
-        console.log("Login realizado com sucesso!");
+      console.log(
+        "Nova conta criada:",
+        resultado.user.email
+      );
 
-      } catch (error) {
 
-        console.error(error);
+      mensagem.textContent =
+        "🎉 Conta criada com sucesso!";
 
-        switch (error.code) {
+      mensagem.className = "sucesso";
 
-          case "auth/invalid-credential":
-          case "auth/wrong-password":
-          case "auth/user-not-found":
-            alert("❌ E-mail ou senha incorretos.");
-            break;
 
-          case "auth/invalid-email":
-            alert("❌ Digite um e-mail válido.");
-            break;
+      // O Firebase já deixa o usuário
+      // automaticamente conectado.
+      //
+      // Portanto o onAuthStateChanged()
+      // vai detectar o login e mandar
+      // para a Tela 2.
 
-          case "auth/too-many-requests":
-            alert("⚠️ Muitas tentativas. Tente novamente mais tarde.");
-            break;
 
-          default:
-            alert("❌ Erro ao entrar:\n" + error.message);
-        }
+    } catch (error) {
+
+      console.error(
+        "Erro ao criar conta:",
+        error
+      );
+
+
+      // ================================
+      // TRATAMENTO DOS ERROS
+      // ================================
+
+      switch (error.code) {
+
+        case "auth/email-already-in-use":
+
+          mensagem.textContent =
+            "❌ Esse e-mail já possui uma conta.";
+
+          break;
+
+
+        case "auth/invalid-email":
+
+          mensagem.textContent =
+            "❌ Esse e-mail não é válido.";
+
+          break;
+
+
+        case "auth/weak-password":
+
+          mensagem.textContent =
+            "❌ A senha precisa ter pelo menos 6 caracteres.";
+
+          break;
+
+
+        case "auth/operation-not-allowed":
+
+          mensagem.textContent =
+            "❌ O login por e-mail e senha não está ativado no Firebase.";
+
+          break;
+
+
+        default:
+
+          mensagem.textContent =
+            "❌ Erro ao criar conta: " +
+            error.message;
+
       }
-    });
-  }
 
+      mensagem.className = "erro";
 
-  // ========================================
-  // GOOGLE
-  // ========================================
+    }
 
-  const btnGoogle = document.getElementById("btnGoogle");
+  });
 
-  if (btnGoogle) {
-
-    btnGoogle.addEventListener("click", async () => {
-
-      try {
-
-        await signInWithPopup(auth, googleProvider);
-
-        console.log("Login com Google realizado!");
-
-      } catch (error) {
-
-        console.error(error);
-
-        if (error.code === "auth/popup-closed-by-user") {
-          return;
-        }
-
-        alert(
-          "❌ Erro no login com Google:\n" +
-          error.message
-        );
-      }
-    });
-  }
-
-
-  // ========================================
-  // LOGOUT
-  // ========================================
-
-  const btnVoltar = document.getElementById("btnVoltar");
-
-  if (btnVoltar) {
-
-    btnVoltar.addEventListener("click", async () => {
-
-      try {
-
-        await signOut(auth);
-
-      } catch (error) {
-
-        console.error(error);
-
-        alert("❌ Erro ao sair da conta.");
-      }
-    });
-  }
-
-
-  // ========================================
+}  // ========================================
   // TELA 2 → TELA 3
   // ========================================
 
