@@ -12,14 +12,16 @@ import {
 // CONFIGURAÇÃO DO FIREBASE
 // ==========================================
 const firebaseConfig = {
-  apiKey: "AIzaSyA5ON_73pmWxuhxuV8RXqQUtF7-RUiR0DY",
+  apiKey: "AIzaSyA5ON_73pmPWuhxuV8RXqQUtF7-RUiR0DY",
   authDomain: "meu-site-oficial-1e82d.firebaseapp.com",
+  databaseURL: "https://meu-site-oficial-1e82d-default-rtdb.firebaseio.com",
   projectId: "meu-site-oficial-1e82d",
   storageBucket: "meu-site-oficial-1e82d.firebasestorage.app",
   messagingSenderId: "999359902580",
-  appId: "1:999359902580:web:ab2950db66fa76146cb221",
-  measurementId: "G-1MDQVL5TH3"
+  appId: "1:999359902580:web:b2ad304b4ca50d0d6cb221",
+  measurementId: "G-PFPPFZR8Y7"
 };
+
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const googleProvider = new GoogleAuthProvider();
