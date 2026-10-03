@@ -108,114 +108,72 @@ document.addEventListener("DOMContentLoaded", () => {
   // LOGIN COM E-MAIL E SENHA
   // ========================================
 
-  const btnComecar = document.getElementById("btnComecar");
+  // ========================================
+  // 1. BOTÃO DE ENTRAR (LOGIN)
+  // ========================================
+  const btnEntrar = document.getElementById("btnEntrar");
 
-  if (btnComecar) {
-
-    btnComecar.addEventListener("click", async () => {
-
+  if (btnEntrar) {
+    btnEntrar.addEventListener("click", async () => {
       const email = document.getElementById("usuario")?.value.trim();
       const senha = document.getElementById("senha")?.value;
 
       if (!email || !senha) {
-        alert("⚠️ Digite seu e-mail e sua senha.");
+        alert("⚠️ Digite seu e-mail e sua senha para entrar.");
         return;
       }
 
       try {
-
-        await signInWithEmailAndPassword(
-          auth,
-          email,
-          senha
-        );
-
+        await signInWithEmailAndPassword(auth, email, senha);
         console.log("Login realizado com sucesso!");
 
       } catch (error) {
-
         console.error(error);
-
-        switch (error.code) {
-
-          case "auth/invalid-credential":
-          case "auth/wrong-password":
-          case "auth/user-not-found":
-            alert("❌ E-mail ou senha incorretos.");
-            break;
-
-          case "auth/invalid-email":
-            alert("❌ Digite um e-mail válido.");
-            break;
-
-          case "auth/too-many-requests":
-            alert("⚠️ Muitas tentativas. Tente novamente mais tarde.");
-            break;
-
-          default:
-            alert("❌ Erro ao entrar:\n" + error.message);
+        if (error.code === "auth/invalid-credential" || error.code === "auth/wrong-password" || error.code === "auth/user-not-found") {
+          alert("❌ E-mail ou senha incorretos.");
+        } else if (error.code === "auth/invalid-email") {
+          alert("❌ Digite um e-mail válido.");
+        } else {
+          alert("❌ Erro ao entrar:\n" + error.message);
         }
       }
     });
   }
 
-
   // ========================================
-  // GOOGLE
+  // 2. BOTÃO DE CRIAR CONTA (REGISTRO)
   // ========================================
+  const btnCriarConta = document.getElementById("btnCriarConta");
 
-  const btnGoogle = document.getElementById("btnGoogle");
+  if (btnCriarConta) {
+    btnCriarConta.addEventListener("click", async () => {
+      const email = document.getElementById("usuario")?.value.trim();
+      const senha = document.getElementById("senha")?.value;
 
-  if (btnGoogle) {
-
-    btnGoogle.addEventListener("click", async () => {
+      if (!email || !senha) {
+        alert("⚠️ Digite um e-mail e uma senha para criar sua conta.");
+        return;
+      }
 
       try {
-
-        await signInWithPopup(auth, googleProvider);
-
-        console.log("Login com Google realizado!");
+        await createUserWithEmailAndPassword(auth, email, senha);
+        alert("✨ Conta criada e logada com sucesso!");
+        console.log("Conta criada com sucesso!");
 
       } catch (error) {
-
         console.error(error);
-
-        if (error.code === "auth/popup-closed-by-user") {
-          return;
+        if (error.code === 'auth/email-already-in-use') {
+          alert("❌ Esse e-mail já está cadastrado! Clique em 'Entrar'.");
+        } else if (error.code === 'auth/weak-password') {
+          alert("❌ A senha é muito fraca. Ela deve ter pelo menos 6 caracteres.");
+        } else if (error.code === 'auth/invalid-email') {
+          alert("❌ Digite um e-mail válido.");
+        } else {
+          alert("❌ Erro ao criar conta:\n" + error.message);
         }
-
-        alert(
-          "❌ Erro no login com Google:\n" +
-          error.message
-        );
       }
     });
   }
-
-
-  // ========================================
-  // LOGOUT
-  // ========================================
-
-  const btnVoltar = document.getElementById("btnVoltar");
-
-  if (btnVoltar) {
-
-    btnVoltar.addEventListener("click", async () => {
-
-      try {
-
-        await signOut(auth);
-
-      } catch (error) {
-
-        console.error(error);
-
-        alert("❌ Erro ao sair da conta.");
-      }
-    });
-  }
-
 
   // ========================================
   // TELA 2 → TELA 3
