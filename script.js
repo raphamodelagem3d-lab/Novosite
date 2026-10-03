@@ -171,6 +171,12 @@ window.confirmarEEnviar = function() {
   }
 };
 
+window.fecharModal = function(idModal) {
+  const modal = document.getElementById(idModal);
+  if (modal) {
+    modal.classList.add("escondida");
+  }
+};
 
 // ==========================================
 // MONITOR DE AUTENTICAÇÃO (SESSÃO)
