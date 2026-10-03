@@ -12,7 +12,7 @@ import {
 // CONFIGURAÇÃO DO FIREBASE
 // ==========================================
 const firebaseConfig = {
-  apiKey: "AIzaSyA5ON_73pmGWpm7xV8RXqQUtF7-RUiR0DY",
+  apiKey: "AIzaSyA5ON_73pmWxuhxuV8RXqQUtF7-RUiR0DY",
   authDomain: "meu-site-oficial-1e82d.firebaseapp.com",
   projectId: "meu-site-oficial-1e82d",
   storageBucket: "meu-site-oficial-1e82d.firebasestorage.app",
