@@ -7,17 +7,18 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-  <!-- TELA 1 (Login / Cadastro) -->
+<!-- TELA 1 (Login / Cadastro) -->
 <div id="tela1">
 
   <h1>Acessar Conta</h1>
-  <p>Entre ou crie sua conta para começar</p>
+  <p id="textoLogin">Entre ou crie sua conta para começar</p>
 
   <div class="login-card">
 
+    <!-- E-MAIL -->
     <div class="campo-input">
       <label for="usuario">E-mail</label>
+
       <input
         type="email"
         id="usuario"
@@ -26,32 +27,45 @@
       >
     </div>
 
+
+    <!-- SENHA -->
     <div class="campo-input">
       <label for="senha">Senha</label>
+
       <input
         type="password"
         id="senha"
         placeholder="Digite sua senha..."
-        autocomplete="new-password"
+        autocomplete="current-password"
       >
     </div>
 
+
+    <!-- ENTRAR -->
     <button type="button" id="btnComecar">
       Entrar
     </button>
 
+
+    <!-- CRIAR CONTA -->
     <button type="button" id="btnCriarConta">
       Criar conta
     </button>
 
+
+    <!-- SEPARADOR -->
     <div class="separador">
       <span>OU</span>
     </div>
 
+
+    <!-- GOOGLE -->
     <button type="button" id="btnGoogle">
       🔵 Entrar com Google
     </button>
 
+
+    <!-- MENSAGEM -->
     <p id="mensagemLogin"></p>
 
   </div>
