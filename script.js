@@ -7,13 +7,13 @@ import {
   GoogleAuthProvider,
   signInWithPopup,
   onAuthStateChanged,
-  signOut 
-  updateProfile //
+  signOut,
+  updateProfile
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
 
 // ==========================================
-// FIREBASE
+// FIREBASE CONFIG
 // ==========================================
 
 const firebaseConfig = {
@@ -33,11 +33,11 @@ const googleProvider = new GoogleAuthProvider();
 
 
 // ==========================================
-// TROCAR TELAS
+// FUNÇÕES GLOBAIS (NAVEGAÇÃO E UTILITÁRIOS)
 // ==========================================
 
+// TROCAR TELAS
 window.trocarTela = function(telaAtual, proximaTela) {
-
   const atual = document.getElementById(telaAtual);
   const proxima = document.getElementById(proximaTela);
 
@@ -50,30 +50,45 @@ window.trocarTela = function(telaAtual, proximaTela) {
   proxima.classList.remove("escondida");
 };
 
-
-// ==========================================
 // COPIAR PIX
-// ==========================================
-
 window.copiarPix = function(chave) {
-
   if (!chave || chave === "SUA_CHAVE_PIX_AQUI") {
     alert("Nenhuma chave Pix configurada!");
     return;
   }
 
   navigator.clipboard.writeText(chave)
-    .then(() => {
-      alert("✨ Chave Pix copiada com sucesso!");
-    })
-    .catch(() => {
-      alert("Erro ao copiar.\nSua chave Pix é:\n" + chave);
-    });
+    .then(() => alert("✨ Chave Pix copiada com sucesso!"))
+    .catch(() => alert("Erro ao copiar.\nSua chave Pix é:\n" + chave));
+};
+
+// MENSAGEM DO WHATSAPP COM NOME E CONTA
+window.enviarWhatsapp = function() {
+  const usuarioAtual = auth.currentUser;
+  
+  // Pega o nome do usuário ou e-mail caso não tenha nome
+  const nomeConta = usuarioAtual ? (usuarioAtual.displayName || usuarioAtual.email) : "Cliente";
+  
+  // Pega o tipo de tiragem e a pergunta
+  const tipoTiragem = document.getElementById("tipoTiragem")?.value || "Tiragem";
+  const pergunta = document.getElementById("perguntaTarot")?.value.trim() || "Não informada";
+
+  // Monta o texto formatado
+  const mensagem = `Olá! Fiz meu Pix e gostaria de confirmar meu pedido. 🔮\n\n` +
+                   `👤 *Conta/Nome:* ${nomeConta}\n` +
+                   `📌 *Serviço:* ${tipoTiragem}\n` +
+                   `❓ *Pergunta/Tema:* ${pergunta}`;
+
+  // Codifica a mensagem para URL
+  const linkWhatsapp = `https://wa.me/5511969055944?text=${encodeURIComponent(mensagem)}`;
+
+  // Abre o WhatsApp
+  window.open(linkWhatsapp, "_blank");
 };
 
 
 // ==========================================
-// VERIFICAR SESSÃO
+// VERIFICAR SESSÃO DO USUÁRIO
 // ==========================================
 
 onAuthStateChanged(auth, (usuario) => {
@@ -88,7 +103,7 @@ onAuthStateChanged(auth, (usuario) => {
     
     if (nomeExibicao) nomeExibicao.innerText = nomeFinal;
 
-    // Se o usuário tiver foto do Google, usa a foto; senão, coloca a 1ª letra na bolinha
+    // Se o usuário tiver foto do Google, usa a foto; senão, coloca a 1ª letra
     if (avatarBolinha) {
       if (usuario.photoURL) {
         avatarBolinha.style.backgroundImage = `url('${usuario.photoURL}')`;
@@ -110,21 +125,15 @@ onAuthStateChanged(auth, (usuario) => {
   }
 });
 
+
 // ==========================================
-// BOTÕES
+// EVENTOS E BOTÕES
 // ==========================================
 
 document.addEventListener("DOMContentLoaded", () => {
 
-
-  // ========================================
-  // LOGIN COM E-MAIL E SENHA
-  // ========================================
-
-  // ========================================
   // 1. BOTÃO DE ENTRAR (LOGIN)
-  // ========================================
-  const btnEntrar = document.getElementById("btnEntrar");
+  const btnEntrar = document.getElementById("btnEntrar") || document.getElementById("btnComecar");
 
   if (btnEntrar) {
     btnEntrar.addEventListener("click", async () => {
@@ -153,9 +162,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // ========================================
   // 2. BOTÃO DE CRIAR CONTA (REGISTRO)
-  // ========================================
   const btnCriarConta = document.getElementById("btnCriarConta");
 
   if (btnCriarConta) {
@@ -188,110 +195,69 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // ========================================
-  // TELA 2 → TELA 3
-  // ========================================
-
-  document.getElementById("btnipmlbb")?.addEventListener(
-    "click",
-    () => {
-      trocarTela("tela2", "tela3");
-    }
-  );
-
-
-  // ========================================
-  // TELA 3 → TELA 2
-  // ========================================
-
-  document.getElementById("btnVoltarTela3")?.addEventListener(
-    "click",
-    () => {
-      trocarTela("tela3", "tela2");
-    }
-  );
-
-});
-  // ========================================
   // 3. BOTÃO DO GOOGLE
-  // ========================================
   const btnGoogle = document.getElementById("btnGoogle");
 
   if (btnGoogle) {
     btnGoogle.addEventListener("click", async () => {
       try {
-        // Abre o pop-up do Google para o usuário escolher a conta
         const result = await signInWithPopup(auth, googleProvider);
         const user = result.user;
         
-        console.log("Logado com sucesso via Google:", user.displayName || user.email);
+        console.log("Logado via Google:", user.displayName || user.email);
         alert(`✨ Bem-vindo(a), ${user.displayName || user.email}!`);
 
       } catch (error) {
         console.error("Erro no Google Login:", error);
 
         if (error.code === "auth/popup-closed-by-user") {
-          // O usuário apenas fechou a janela do Google, não precisa dar erro grave
           console.log("Janela do Google fechada pelo usuário.");
         } else if (error.code === "auth/operation-not-allowed") {
-          alert("❌ O login do Google ainda não foi ativado no Console do Firebase! Ative na aba Authentication -> Sign-in method.");
+          alert("❌ O login do Google precisa ser ativado no Console do Firebase (Authentication -> Sign-in method).");
         } else {
           alert("❌ Erro ao entrar com o Google:\n" + error.message);
         }
       }
     });
   }
-// ==========================================
-// EDITAR NOME DO USUÁRIO
-// ==========================================
-document.getElementById("btnEditarNome")?.addEventListener("click", async () => {
-  const usuarioAtual = auth.currentUser;
-  if (!usuarioAtual) return alert("Você precisa estar logado!");
 
-  const novoNome = prompt("Digite seu nome de exibição:", usuarioAtual.displayName || "");
+  // 4. EDITAR NOME DO USUÁRIO
+  document.getElementById("btnEditarNome")?.addEventListener("click", async () => {
+    const usuarioAtual = auth.currentUser;
+    if (!usuarioAtual) return alert("Você precisa estar logado!");
 
-  if (novoNome && novoNome.trim() !== "") {
-    try {
-      await updateProfile(usuarioAtual, {
-        displayName: novoNome.trim()
-      });
+    const novoNome = prompt("Digite seu nome de exibição:", usuarioAtual.displayName || "");
 
-      // Atualiza na tela imediatamente
-      document.getElementById("nomeExibicao").innerText = novoNome.trim();
-      const avatar = document.getElementById("avatarBolinha");
-      if (avatar && !usuarioAtual.photoURL) {
-        avatar.innerText = novoNome.trim().charAt(0).toUpperCase();
+    if (novoNome && novoNome.trim() !== "") {
+      try {
+        await updateProfile(usuarioAtual, {
+          displayName: novoNome.trim()
+        });
+
+        document.getElementById("nomeExibicao").innerText = novoNome.trim();
+        const avatar = document.getElementById("avatarBolinha");
+        if (avatar && !usuarioAtual.photoURL) {
+          avatar.innerText = novoNome.trim().charAt(0).toUpperCase();
+        }
+
+        alert("✨ Nome alterado com sucesso!");
+      } catch (erro) {
+        alert("Erro ao atualizar nome: " + erro.message);
       }
-
-      alert("✨ Nome alterado com sucesso!");
-    } catch (erro) {
-      alert("Erro ao atualizar nome: " + erro.message);
     }
-  }
+  });
+
+  // 5. BOTÕES DE NAVEGAÇÃO
+  document.getElementById("btnipmlbb")?.addEventListener("click", () => {
+    trocarTela("tela2", "tela3");
+  });
+
+  document.getElementById("btnVoltar")?.addEventListener("click", () => {
+    trocarTela("tela2", "tela1");
+  });
+
+  document.getElementById("btnVoltarTela3")?.addEventListener("click", () => {
+    trocarTela("tela3", "tela2");
+  });
+
 });
-
-// ==========================================
-// GERAR MENSAGEM DO WHATSAPP COM NOME E CONTA
-// ==========================================
-window.enviarWhatsapp = function() {
-  const usuarioAtual = auth.currentUser;
-  
-  // Pega o nome do usuário ou e-mail caso não tenha nome
-  const nomeConta = usuarioAtual ? (usuarioAtual.displayName || usuarioAtual.email) : "Cliente";
-  
-  // Pega o tipo de tiragem e a pergunta
-  const tipoTiragem = document.getElementById("tipoTiragem")?.value || "Tiragem";
-  const pergunta = document.getElementById("perguntaTarot")?.value.trim() || "Não informada";
-
-  // Monta o texto formatado
-  const mensagem = `Olá! Fiz meu Pix e gostaria de confirmar meu pedido. 🔮\n\n` +
-                   `👤 *Conta/Nome:* ${nomeConta}\n` +
-                   `📌 *Serviço:* ${tipoTiragem}\n` +
-                   `❓ *Pergunta/Tema:* ${pergunta}`;
-
-  // Codifica a mensagem para URL
-  const linkWhatsapp = `https://wa.me/5511969055944?text=${encodeURIComponent(mensagem)}`;
-
-  // Abre o WhatsApp
-  window.open(linkWhatsapp, "_blank");
-};
