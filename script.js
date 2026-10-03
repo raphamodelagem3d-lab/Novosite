@@ -3,6 +3,8 @@ import {
   getAuth, 
   createUserWithEmailAndPassword, 
   signInWithEmailAndPassword,
+  GoogleAuthProvider,
+  signInWithPopup,
   onAuthStateChanged,
   signOut
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
@@ -29,8 +31,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
-
-let modoCadastro = false;
+const googleProvider = new GoogleAuthProvider();
 
 // ==========================================
 // FUNÇÕES GLOBAIS DE NAVEGAÇÃO E UTILITÁRIOS
@@ -65,18 +66,50 @@ window.copiarPix = function(chave) {
 // ==========================================
 onAuthStateChanged(auth, (usuario) => {
   if (usuario) {
-    console.log("Usuário logado:", usuario.email);
+    console.log("Usuário conectado:", usuario.email);
     const tela1 = document.getElementById('tela1');
     if (tela1 && !tela1.classList.contains('escondida')) {
       window.trocarTela('tela1', 'tela2');
     }
   } else {
     console.log("Nenhum usuário logado.");
-    window.trocarTela('tela2', 'tela1');
-    window.trocarTela('tela3', 'tela1');
-    window.trocarTela('tela4', 'tela1');
+    const tela2 = document.getElementById('tela2');
+    const tela3 = document.getElementById('tela3');
+    const tela4 = document.getElementById('tela4');
+    
+    if (tela2 && !tela2.classList.contains('escondida')) window.trocarTela('tela2', 'tela1');
+    if (tela3 && !tela3.classList.contains('escondida')) window.trocarTela('tela3', 'tela1');
+    if (tela4 && !tela4.classList.contains('escondida')) window.trocarTela('tela4', 'tela1');
   }
 });
+
+// ==========================================
+// FUNÇÃO INTELIGENTE DE AUTENTICAÇÃO (ENTRAR / CRIAR)
+// ==========================================
+async function autenticarInteligente(email, senha) {
+  try {
+    // 1. Primeiro tenta fazer o login normalmente
+    await signInWithEmailAndPassword(auth, email, senha);
+    console.log("Login efetuado com sucesso!");
+  } catch (erroLogin) {
+    // 2. Se falhar o login, tenta criar a conta automaticamente
+    try {
+      await createUserWithEmailAndPassword(auth, email, senha);
+      alert("✨ Conta criada e conectada com sucesso!");
+    } catch (erroCadastro) {
+      // 3. Se falhar na criação porque a conta JÁ existe, significa que a senha digitada estava errada
+      if (erroCadastro.code === 'auth/email-already-in-use') {
+        alert("❌ Senha incorreta para este e-mail!");
+      } else if (erroCadastro.code === 'auth/weak-password') {
+        alert("⚠️ A senha deve ter no mínimo 6 caracteres.");
+      } else if (erroCadastro.code === 'auth/invalid-email') {
+        alert("⚠️ Digite um endereço de e-mail válido.");
+      } else {
+        alert("Erro na autenticação: " + erroCadastro.message);
+      }
+    }
+  }
+}
 
 // ==========================================
 // FUNÇÃO PARA SALVAR O PEDIDO NO FIRESTORE
@@ -100,7 +133,7 @@ async function salvarPedidoTarot() {
   try {
     await addDoc(collection(db, "pedidos_tarot"), {
       userId: usuario.uid,
-      userEmail: usuario.email,
+      userEmail: usuario.email || "Sem e-mail registrado",
       tipoTiragem: tipo,
       pergunta: pergunta,
       status: "pendente",
@@ -120,40 +153,10 @@ async function salvarPedidoTarot() {
 // ==========================================
 document.addEventListener('DOMContentLoaded', () => {
   const btnAcao = document.getElementById('btnAcao');
-  const linkAlternar = document.getElementById('linkAlternar');
-  const tituloLogin = document.getElementById('tituloLogin');
-  const subtituloLogin = document.getElementById('subtituloLogin');
-  const textoAlternar = document.getElementById('textoAlternar');
+  const btnGoogle = document.getElementById('btnGoogle');
   const btnEnviarPedido = document.getElementById('btnEnviarPedido');
 
-  // Enviar pedido do Tarot no Firestore (Tela 4)
-  if (btnEnviarPedido) {
-    btnEnviarPedido.addEventListener('click', salvarPedidoTarot);
-  }
-
-  // Alternar entre Login e Cadastro
-  if (linkAlternar) {
-    linkAlternar.addEventListener('click', (e) => {
-      e.preventDefault();
-      modoCadastro = !modoCadastro;
-
-      if (modoCadastro) {
-        if (tituloLogin) tituloLogin.textContent = "Criar Conta";
-        if (subtituloLogin) subtituloLogin.textContent = "Crie uma conta para acessar a loja";
-        if (btnAcao) btnAcao.textContent = "Cadastrar";
-        if (textoAlternar) textoAlternar.textContent = "Já tem uma conta?";
-        linkAlternar.textContent = "Entrar";
-      } else {
-        if (tituloLogin) tituloLogin.textContent = "Acessar Conta";
-        if (subtituloLogin) subtituloLogin.textContent = "Digite seus dados para começar";
-        if (btnAcao) btnAcao.textContent = "Entrar";
-        if (textoAlternar) textoAlternar.textContent = "Não tem uma conta?";
-        linkAlternar.textContent = "Cadastrar-se";
-      }
-    });
-  }
-
-  // Autenticação (Login / Cadastro)
+  // Clique no botão de Login / Cadastro Inteligente
   if (btnAcao) {
     btnAcao.addEventListener('click', () => {
       const email = document.getElementById('usuario')?.value.trim();
@@ -164,14 +167,27 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
       }
 
-      if (modoCadastro) {
-        createUserWithEmailAndPassword(auth, email, senha)
-          .catch((error) => alert('Erro no cadastro: ' + error.message));
-      } else {
-        signInWithEmailAndPassword(auth, email, senha)
-          .catch((error) => alert('Erro no login: ' + error.message));
-      }
+      autenticarInteligente(email, senha);
     });
+  }
+
+  // Login com Google
+  if (btnGoogle) {
+    btnGoogle.addEventListener('click', () => {
+      signInWithPopup(auth, googleProvider)
+        .then((result) => {
+          console.log("Login com Google bem-sucedido:", result.user);
+        })
+        .catch((error) => {
+          console.error("Erro ao entrar com Google:", error);
+          alert("Erro no login com Google: " + error.message);
+        });
+    });
+  }
+
+  // Enviar pedido do Tarot no Firestore (Tela 4)
+  if (btnEnviarPedido) {
+    btnEnviarPedido.addEventListener('click', salvarPedidoTarot);
   }
 
   // ==========================================
