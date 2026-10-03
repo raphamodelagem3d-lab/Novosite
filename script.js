@@ -27,31 +27,32 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const googleProvider = new GoogleAuthProvider();
 
-
-// ==========================================
-// TESTE
-// ==========================================
-
 console.log("🔥 SCRIPT.JS CARREGADO!");
-console.log("🔥 Firebase inicializado!");
-console.log("🔥 Auth inicializado!");
+console.log("🔥 FIREBASE INICIALIZADO!");
 
 
-// ==========================================
-// TELAS
-// ==========================================
+/* =========================
+   TROCAR TELAS
+========================= */
 
 window.trocarTela = function(atual, proxima) {
 
-  document.getElementById(atual)?.classList.add("escondida");
-  document.getElementById(proxima)?.classList.remove("escondida");
+  const telaAtual = document.getElementById(atual);
+  const telaProxima = document.getElementById(proxima);
 
+  if (telaAtual) {
+    telaAtual.classList.add("escondida");
+  }
+
+  if (telaProxima) {
+    telaProxima.classList.remove("escondida");
+  }
 };
 
 
-// ==========================================
-// PIX
-// ==========================================
+/* =========================
+   PIX
+========================= */
 
 window.copiarPix = function(chave) {
 
@@ -61,15 +62,19 @@ window.copiarPix = function(chave) {
   }
 
   navigator.clipboard.writeText(chave)
-    .then(() => alert("✨ Chave Pix copiada!"))
-    .catch(() => alert("Chave Pix: " + chave));
+    .then(() => {
+      alert("✨ Chave Pix copiada!");
+    })
+    .catch(() => {
+      alert("Chave Pix: " + chave);
+    });
 
 };
 
 
-// ==========================================
-// SESSÃO
-// ==========================================
+/* =========================
+   ESTADO DO LOGIN
+========================= */
 
 onAuthStateChanged(auth, (user) => {
 
@@ -80,92 +85,86 @@ onAuthStateChanged(auth, (user) => {
 
   if (user) {
 
-    document.getElementById("tela1")
-      ?.classList.add("escondida");
-
-    document.getElementById("tela2")
-      ?.classList.remove("escondida");
+    document.getElementById("tela1")?.classList.add("escondida");
+    document.getElementById("tela2")?.classList.remove("escondida");
 
   } else {
 
-    document.getElementById("tela1")
-      ?.classList.remove("escondida");
+    document.getElementById("tela1")?.classList.remove("escondida");
+    document.getElementById("tela2")?.classList.add("escondida");
+    document.getElementById("tela3")?.classList.add("escondida");
+    document.getElementById("tela4")?.classList.add("escondida");
 
-    document.getElementById("tela2")
-      ?.classList.add("escondida");
-
-    document.getElementById("tela3")
-      ?.classList.add("escondida");
-
-    document.getElementById("tela4")
-      ?.classList.add("escondida");
   }
 
 });
 
 
-// ==========================================
-// QUANDO HTML CARREGAR
-// ==========================================
+/* =========================
+   BOTÕES
+========================= */
 
 document.addEventListener("DOMContentLoaded", () => {
 
   console.log("🔥 DOM CARREGADO!");
 
-  const email = document.getElementById("usuario");
-  const senha = document.getElementById("senha");
-  const mensagem = document.getElementById("mensagemLogin");
+  const emailInput = document.getElementById("usuario");
+  const senhaInput = document.getElementById("senha");
+
+  const mensagemEl = document.getElementById("mensagemLogin");
 
   const btnEntrar = document.getElementById("btnComecar");
   const btnCriar = document.getElementById("btnCriarConta");
   const btnGoogle = document.getElementById("btnGoogle");
+
   const btnVoltar = document.getElementById("btnVoltar");
   const btnTela3 = document.getElementById("btnipmlbb");
-  const btnVoltarTela3 =
-    document.getElementById("btnVoltarTela3");
+  const btnVoltarTela3 = document.getElementById("btnVoltarTela3");
 
 
-  console.log("btnEntrar:", btnEntrar);
-  console.log("btnCriar:", btnCriar);
-  console.log("btnGoogle:", btnGoogle);
+  console.log("Botão Entrar:", btnEntrar);
+  console.log("Botão Criar:", btnCriar);
+  console.log("Botão Google:", btnGoogle);
 
 
-  function mensagem(texto) {
+  function mostrarMensagem(texto) {
 
-    if (mensagem) {
-      mensagem.textContent = texto;
+    if (mensagemEl) {
+      mensagemEl.textContent = texto;
     }
 
   }
 
 
-  // ========================================
-  // ENTRAR
-  // ========================================
+  /* =========================
+     ENTRAR
+  ========================= */
 
   btnEntrar?.addEventListener("click", async () => {
 
     console.log("🟢 BOTÃO ENTRAR CLICADO");
 
-    const emailValue = email.value.trim();
-    const senhaValue = senha.value;
+    const email = emailInput.value.trim();
+    const senha = senhaInput.value;
 
-    if (!emailValue || !senhaValue) {
-      mensagem("⚠️ Preencha e-mail e senha.");
+    if (!email || !senha) {
+
+      mostrarMensagem("⚠️ Preencha o e-mail e a senha.");
+
       return;
     }
 
     try {
 
-      mensagem("Entrando...");
+      mostrarMensagem("Entrando...");
 
       await signInWithEmailAndPassword(
         auth,
-        emailValue,
-        senhaValue
+        email,
+        senha
       );
 
-      mensagem("✅ Login realizado!");
+      mostrarMensagem("✅ Login realizado!");
 
     } catch (error) {
 
@@ -177,11 +176,11 @@ document.addEventListener("DOMContentLoaded", () => {
         error.code === "auth/user-not-found"
       ) {
 
-        mensagem("❌ E-mail ou senha incorretos.");
+        mostrarMensagem("❌ E-mail ou senha incorretos.");
 
       } else {
 
-        mensagem("❌ " + error.message);
+        mostrarMensagem("❌ " + error.message);
 
       }
 
@@ -190,41 +189,50 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
 
-  // ========================================
-  // CRIAR CONTA
-  // ========================================
+  /* =========================
+     CRIAR CONTA
+  ========================= */
 
   btnCriar?.addEventListener("click", async () => {
 
     console.log("🟢 BOTÃO CRIAR CONTA CLICADO");
 
-    const emailValue = email.value.trim();
-    const senhaValue = senha.value;
+    const email = emailInput.value.trim();
+    const senha = senhaInput.value;
 
-    if (!emailValue) {
-      mensagem("⚠️ Digite um e-mail.");
+    if (!email) {
+
+      mostrarMensagem("⚠️ Digite um e-mail.");
+
       return;
     }
 
-    if (!senhaValue) {
-      mensagem("⚠️ Digite uma senha.");
+    if (!senha) {
+
+      mostrarMensagem("⚠️ Digite uma senha.");
+
       return;
     }
 
-    if (senhaValue.length < 6) {
-      mensagem("❌ A senha precisa ter pelo menos 6 caracteres.");
+    if (senha.length < 6) {
+
+      mostrarMensagem(
+        "❌ A senha precisa ter pelo menos 6 caracteres."
+      );
+
       return;
     }
+
 
     try {
 
-      mensagem("Criando conta...");
+      mostrarMensagem("Criando conta...");
 
       const resultado =
         await createUserWithEmailAndPassword(
           auth,
-          emailValue,
-          senhaValue
+          email,
+          senha
         );
 
       console.log(
@@ -232,7 +240,9 @@ document.addEventListener("DOMContentLoaded", () => {
         resultado.user.email
       );
 
-      mensagem("🎉 Conta criada com sucesso!");
+      mostrarMensagem(
+        "🎉 Conta criada com sucesso!"
+      );
 
     } catch (error) {
 
@@ -241,23 +251,47 @@ document.addEventListener("DOMContentLoaded", () => {
       switch (error.code) {
 
         case "auth/email-already-in-use":
-          mensagem("❌ Esse e-mail já está cadastrado.");
+
+          mostrarMensagem(
+            "❌ Esse e-mail já está cadastrado."
+          );
+
           break;
+
 
         case "auth/invalid-email":
-          mensagem("❌ E-mail inválido.");
+
+          mostrarMensagem(
+            "❌ E-mail inválido."
+          );
+
           break;
+
 
         case "auth/weak-password":
-          mensagem("❌ A senha precisa ter pelo menos 6 caracteres.");
+
+          mostrarMensagem(
+            "❌ A senha precisa ter pelo menos 6 caracteres."
+          );
+
           break;
+
 
         case "auth/operation-not-allowed":
-          mensagem("❌ Ative E-mail/Senha no Firebase Authentication.");
+
+          mostrarMensagem(
+            "❌ Ative E-mail/Senha no Firebase Authentication."
+          );
+
           break;
 
+
         default:
-          mensagem("❌ " + error.message);
+
+          mostrarMensagem(
+            "❌ " + error.message
+          );
+
       }
 
     }
@@ -265,9 +299,9 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
 
-  // ========================================
-  // GOOGLE
-  // ========================================
+  /* =========================
+     GOOGLE
+  ========================= */
 
   btnGoogle?.addEventListener("click", async () => {
 
@@ -275,7 +309,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     try {
 
-      mensagem("Abrindo Google...");
+      mostrarMensagem("Abrindo Google...");
 
       const resultado =
         await signInWithPopup(
@@ -292,7 +326,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       console.error(error);
 
-      mensagem(
+      mostrarMensagem(
         "❌ Google: " + error.message
       );
 
@@ -301,9 +335,9 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
 
-  // ========================================
-  // LOGOUT
-  // ========================================
+  /* =========================
+     VOLTAR / LOGOUT
+  ========================= */
 
   btnVoltar?.addEventListener("click", async () => {
 
@@ -314,9 +348,9 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
 
-  // ========================================
-  // TELA 2 → 3
-  // ========================================
+  /* =========================
+     TELA 3
+  ========================= */
 
   btnTela3?.addEventListener("click", () => {
 
@@ -325,9 +359,9 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
 
-  // ========================================
-  // TELA 3 → 2
-  // ========================================
+  /* =========================
+     VOLTAR PARA TELA 2
+  ========================= */
 
   btnVoltarTela3?.addEventListener("click", () => {
 
