@@ -56,7 +56,17 @@
   </div>
 
   <!-- TELA 2 (Carrossel) -->
-  <div id="tela2" class="escondida">
+  <div id="tela2" class="escondida" style="position: relative;">
+
+    <!-- PERFIL DO USUÁRIO (Canto Superior Direito) -->
+    <div id="perfilUsuario" style="position: absolute; top: 15px; right: 15px; display: flex; align-items: center; gap: 8px; background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(10px); padding: 6px 12px; border-radius: 25px; border: 1px solid rgba(255, 255, 255, 0.2); z-index: 1000;">
+      <div id="avatarBolinha" style="width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, #ff0055, #ffaa00); display: flex; align-items: center; justify-content: center; font-weight: bold; color: white; font-size: 14px; overflow: hidden; background-size: cover; background-position: center;">
+        U
+      </div>
+      <span id="nomeExibicao" style="font-weight: bold; font-size: 13px; color: white;">Usuário</span>
+      <button id="btnEditarNome" style="background: transparent; border: none; color: #ffaa00; cursor: pointer; font-size: 14px; padding: 2px 4px; width: auto; margin: 0; box-shadow: none;" title="Editar Nome">✏️</button>
+    </div>
+
     <h1>Bem-vindo ao meu site!!</h1>
 
     <div class="caixa-container">
@@ -142,12 +152,12 @@
         <!-- Botões de Pagamento e Contato -->
         <button onclick="copiarPix('5511969055944')">📋 Copiar Chave Pix</button>
 
-        <button onclick="window.open('https://wa.me/5511969055944?text=Ol%C3%A1!%20Fiz%20meu%20pedido%20pelo%20site%20e%20paguei%20o%20Pix.', '_blank')" style="margin-top: 8px;">
+        <button onclick="enviarWhatsapp()" style="margin-top: 8px; background: #25D366; box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);">
           💬 Confirmar no WhatsApp
         </button>
       </div>
 
-      <!-- CARTÃO 2: MAIS SERVIÇOS EM BREVE (AGORA DENTRO DO CARROSSEL) -->
+      <!-- CARTÃO 2: MAIS SERVIÇOS EM BREVE -->
       <div class="quadradinho" style="border-left-color: #ffaa00; text-align: center; display: flex; flex-direction: column; justify-content: center;">
         <span class="tag" style="background: rgba(255, 170, 0, 0.2); color: #ffaa00; align-self: center;">Novidade</span>
         <h3 style="color: #ffaa00;">Mais Serviços em Breve</h3>
