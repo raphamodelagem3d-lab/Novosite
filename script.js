@@ -7,7 +7,8 @@ import {
   GoogleAuthProvider,
   signInWithPopup,
   onAuthStateChanged,
-  signOut
+  signOut 
+  updateProfile //
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
 
@@ -76,26 +77,38 @@ window.copiarPix = function(chave) {
 // ==========================================
 
 onAuthStateChanged(auth, (usuario) => {
-
   if (usuario) {
-
     console.log("Usuário logado:", usuario.email);
+
+    // Atualiza a Bolinha de Perfil e o Nome na tela
+    const nomeExibicao = document.getElementById("nomeExibicao");
+    const avatarBolinha = document.getElementById("avatarBolinha");
+
+    const nomeFinal = usuario.displayName || usuario.email.split('@')[0];
+    
+    if (nomeExibicao) nomeExibicao.innerText = nomeFinal;
+
+    // Se o usuário tiver foto do Google, usa a foto; senão, coloca a 1ª letra na bolinha
+    if (avatarBolinha) {
+      if (usuario.photoURL) {
+        avatarBolinha.style.backgroundImage = `url('${usuario.photoURL}')`;
+        avatarBolinha.innerText = "";
+      } else {
+        avatarBolinha.style.backgroundImage = "none";
+        avatarBolinha.innerText = nomeFinal.charAt(0).toUpperCase();
+      }
+    }
 
     document.getElementById("tela1")?.classList.add("escondida");
     document.getElementById("tela2")?.classList.remove("escondida");
 
   } else {
-
-    console.log("Usuário deslogado.");
-
     document.getElementById("tela1")?.classList.remove("escondida");
     document.getElementById("tela2")?.classList.add("escondida");
     document.getElementById("tela3")?.classList.add("escondida");
     document.getElementById("tela4")?.classList.add("escondida");
   }
-
 });
-
 
 // ==========================================
 // BOTÕES
@@ -228,3 +241,57 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   }
+// ==========================================
+// EDITAR NOME DO USUÁRIO
+// ==========================================
+document.getElementById("btnEditarNome")?.addEventListener("click", async () => {
+  const usuarioAtual = auth.currentUser;
+  if (!usuarioAtual) return alert("Você precisa estar logado!");
+
+  const novoNome = prompt("Digite seu nome de exibição:", usuarioAtual.displayName || "");
+
+  if (novoNome && novoNome.trim() !== "") {
+    try {
+      await updateProfile(usuarioAtual, {
+        displayName: novoNome.trim()
+      });
+
+      // Atualiza na tela imediatamente
+      document.getElementById("nomeExibicao").innerText = novoNome.trim();
+      const avatar = document.getElementById("avatarBolinha");
+      if (avatar && !usuarioAtual.photoURL) {
+        avatar.innerText = novoNome.trim().charAt(0).toUpperCase();
+      }
+
+      alert("✨ Nome alterado com sucesso!");
+    } catch (erro) {
+      alert("Erro ao atualizar nome: " + erro.message);
+    }
+  }
+});
+
+// ==========================================
+// GERAR MENSAGEM DO WHATSAPP COM NOME E CONTA
+// ==========================================
+window.enviarWhatsapp = function() {
+  const usuarioAtual = auth.currentUser;
+  
+  // Pega o nome do usuário ou e-mail caso não tenha nome
+  const nomeConta = usuarioAtual ? (usuarioAtual.displayName || usuarioAtual.email) : "Cliente";
+  
+  // Pega o tipo de tiragem e a pergunta
+  const tipoTiragem = document.getElementById("tipoTiragem")?.value || "Tiragem";
+  const pergunta = document.getElementById("perguntaTarot")?.value.trim() || "Não informada";
+
+  // Monta o texto formatado
+  const mensagem = `Olá! Fiz meu Pix e gostaria de confirmar meu pedido. 🔮\n\n` +
+                   `👤 *Conta/Nome:* ${nomeConta}\n` +
+                   `📌 *Serviço:* ${tipoTiragem}\n` +
+                   `❓ *Pergunta/Tema:* ${pergunta}`;
+
+  // Codifica a mensagem para URL
+  const linkWhatsapp = `https://wa.me/5511969055944?text=${encodeURIComponent(mensagem)}`;
+
+  // Abre o WhatsApp
+  window.open(linkWhatsapp, "_blank");
+};
