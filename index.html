@@ -144,14 +144,11 @@
           <input type="text" id="perguntaTarot" placeholder="Ex: O que o futuro reserva para o meu amor?">
         </div>
 
-
-
-        <!-- Botões de Pagamento e Contato -->
-        <button onclick="copiarPix('5511969055944')">📋 Copiar Chave Pix</button>
-
-        <button onclick="enviarWhatsapp()" style="margin-top: 8px; background: #25D366; box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);">
-          💬 Confirmar no WhatsApp
+        <!-- Botão para Abrir o Bloqueio/Pagamento -->
+        <button onclick="bloquearPorPagamento()" style="background: #ffaa00; color: #000; font-weight: bold;">
+          💳 Finalizar Pedido (Pix)
         </button>
+
       </div>
 
       <!-- CARTÃO 2: MAIS SERVIÇOS EM BREVE -->
@@ -164,6 +161,40 @@
     </div>
 
     <button onclick="trocarTela('tela4', 'tela3')">Voltar à Tela 3</button>
+  </div>
+
+
+  <!-- ========================================== -->
+  <!-- MODAL DE BLOQUEIO / PAGAMENTO              -->
+  <!-- ========================================== -->
+  <div id="modalPagamento" class="escondida" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(8px); display: flex; justify-content: center; align-items: center; z-index: 9999;">
+    <div style="background: #1e1e2f; padding: 25px; border-radius: 16px; width: 90%; max-width: 400px; text-align: center; border: 1px solid rgba(255, 255, 255, 0.1); color: white;">
+      
+      <span style="font-size: 40px;">🔒</span>
+      <h2 style="margin: 10px 0;">Acesso Bloqueado</h2>
+      <p style="font-size: 14px; color: #aaa; margin-bottom: 20px;">
+        Realize o pagamento via Pix para confirmar seu pedido.
+      </p>
+
+      <!-- Exibição da Chave Pix na Tela -->
+      <div style="background: rgba(255, 255, 255, 0.05); padding: 12px; border-radius: 10px; font-size: 13px; margin-bottom: 15px; text-align: left;">
+        <p style="margin: 3px 0;"><strong>Chave Pix:</strong> <span>5511969055944</span></p>
+      </div>
+
+      <!-- Botões do Modal -->
+      <button onclick="copiarPix('5511969055944')" style="width: 100%; margin-bottom: 10px; background: #ffaa00; color: #000; font-weight: bold;">
+        📋 Copiar Chave Pix
+      </button>
+
+      <button onclick="confirmarEEnviar()" style="width: 100%; margin-bottom: 10px; background: #25D366; color: white; font-weight: bold;">
+        💬 Já Paguei / Confirmar no WhatsApp
+      </button>
+
+      <button onclick="desbloquearTela()" style="width: 100%; background: transparent; color: #888; border: 1px solid rgba(255,255,255,0.1); font-size: 12px;">
+        Cancelar / Voltar
+      </button>
+
+    </div>
   </div>
 
   <script type="module" src="script.js"></script>

@@ -248,3 +248,46 @@ document.getElementById("btnVoltar")?.addEventListener("click", () => {
 document.getElementById("btnVoltarTela3")?.addEventListener("click", () => {
   trocarTela("tela3", "tela2");
 });
+
+// ==========================================
+// CONFIGURAÇÃO DO PIX E BLOQUEIO DE TELA
+// ==========================================
+
+const MINHA_CHAVE_PIX = "5511969055944";
+
+// 1. Mostrar tela de bloqueio por pagamento
+window.bloquearPorPagamento = function() {
+  const modal = document.getElementById("modalPagamento");
+  if (modal) modal.classList.remove("escondida");
+};
+
+// 2. Liberar/sumir com a tela bloqueada
+window.desbloquearTela = function() {
+  const modal = document.getElementById("modalPagamento");
+  if (modal) modal.classList.add("escondida");
+};
+
+// 3. Confirmar pagamento e enviar mensagem com detalhes do Pix
+window.confirmarEEnviar = function() {
+  const usuarioAtual = auth.currentUser;
+  
+  const nomeConta = usuarioAtual ? (usuarioAtual.displayName || usuarioAtual.email) : "Cliente";
+  const tipoTiragem = document.getElementById("tipoTiragem")?.value || "Tiragem";
+  const pergunta = document.getElementById("perguntaTarot")?.value.trim() || "Não informada";
+
+  // Inclui os dados do Pix e da conta no texto formatado
+  const mensagem = `Olá! Fiz o pagamento referente ao pedido abaixo: 🔮\n\n` +
+                   `👤 *Cliente:* ${nomeConta}\n` +
+                   `📌 *Serviço:* ${tipoTiragem}\n` +
+                   `❓ *Pergunta:* ${pergunta}\n` +
+                   `🔑 *Pix Utilizado:* ${MINHA_CHAVE_PIX}\n\n` +
+                   `Segue o comprovante em anexo!`;
+
+  const linkWhatsapp = `https://wa.me/5511969055944?text=${encodeURIComponent(mensagem)}`;
+  
+  // Abre o WhatsApp
+  window.open(linkWhatsapp, "_blank");
+
+  // Opcional: Libera a tela após a confirmação
+  desbloquearTela();
+};
