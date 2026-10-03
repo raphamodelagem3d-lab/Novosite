@@ -11,6 +11,10 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
 
+// ==========================================
+// FIREBASE
+// ==========================================
+
 const firebaseConfig = {
   apiKey: "AIzaSyA5ON_73pmPWuhxuV8RXqQUtF7-RUiR0DY",
   authDomain: "meu-site-oficial-1e82d.firebaseapp.com",
@@ -22,37 +26,33 @@ const firebaseConfig = {
   measurementId: "G-PFPPFZR8Y7"
 };
 
-
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const googleProvider = new GoogleAuthProvider();
 
-console.log("🔥 SCRIPT.JS CARREGADO!");
-console.log("🔥 FIREBASE INICIALIZADO!");
 
+// ==========================================
+// TROCAR TELAS
+// ==========================================
 
-/* =========================
-   TROCAR TELAS
-========================= */
+window.trocarTela = function(telaAtual, proximaTela) {
 
-window.trocarTela = function(atual, proxima) {
+  const atual = document.getElementById(telaAtual);
+  const proxima = document.getElementById(proximaTela);
 
-  const telaAtual = document.getElementById(atual);
-  const telaProxima = document.getElementById(proxima);
-
-  if (telaAtual) {
-    telaAtual.classList.add("escondida");
+  if (!atual || !proxima) {
+    console.error("Tela não encontrada.");
+    return;
   }
 
-  if (telaProxima) {
-    telaProxima.classList.remove("escondida");
-  }
+  atual.classList.add("escondida");
+  proxima.classList.remove("escondida");
 };
 
 
-/* =========================
-   PIX
-========================= */
+// ==========================================
+// COPIAR PIX
+// ==========================================
 
 window.copiarPix = function(chave) {
 
@@ -63,310 +63,181 @@ window.copiarPix = function(chave) {
 
   navigator.clipboard.writeText(chave)
     .then(() => {
-      alert("✨ Chave Pix copiada!");
+      alert("✨ Chave Pix copiada com sucesso!");
     })
     .catch(() => {
-      alert("Chave Pix: " + chave);
+      alert("Erro ao copiar.\nSua chave Pix é:\n" + chave);
     });
-
 };
 
 
-/* =========================
-   ESTADO DO LOGIN
-========================= */
+// ==========================================
+// VERIFICAR SESSÃO
+// ==========================================
 
-onAuthStateChanged(auth, (user) => {
+onAuthStateChanged(auth, (usuario) => {
 
-  console.log(
-    "Estado da autenticação:",
-    user ? user.email : "deslogado"
-  );
+  if (usuario) {
 
-  if (user) {
+    console.log("Usuário logado:", usuario.email);
 
     document.getElementById("tela1")?.classList.add("escondida");
     document.getElementById("tela2")?.classList.remove("escondida");
 
   } else {
 
+    console.log("Usuário deslogado.");
+
     document.getElementById("tela1")?.classList.remove("escondida");
     document.getElementById("tela2")?.classList.add("escondida");
     document.getElementById("tela3")?.classList.add("escondida");
     document.getElementById("tela4")?.classList.add("escondida");
-
   }
 
 });
 
 
-/* =========================
-   BOTÕES
-========================= */
+// ==========================================
+// BOTÕES
+// ==========================================
 
 document.addEventListener("DOMContentLoaded", () => {
 
-  console.log("🔥 DOM CARREGADO!");
 
-  const emailInput = document.getElementById("usuario");
-  const senhaInput = document.getElementById("senha");
+  // ========================================
+  // LOGIN COM E-MAIL E SENHA
+  // ========================================
 
-  const mensagemEl = document.getElementById("mensagemLogin");
+  const btnComecar = document.getElementById("btnComecar");
 
-  const btnEntrar = document.getElementById("btnComecar");
-  const btnCriar = document.getElementById("btnCriarConta");
-  const btnGoogle = document.getElementById("btnGoogle");
+  if (btnComecar) {
 
-  const btnVoltar = document.getElementById("btnVoltar");
-  const btnTela3 = document.getElementById("btnipmlbb");
-  const btnVoltarTela3 = document.getElementById("btnVoltarTela3");
+    btnComecar.addEventListener("click", async () => {
 
+      const email = document.getElementById("usuario")?.value.trim();
+      const senha = document.getElementById("senha")?.value;
 
-  console.log("Botão Entrar:", btnEntrar);
-  console.log("Botão Criar:", btnCriar);
-  console.log("Botão Google:", btnGoogle);
-
-
-  function mostrarMensagem(texto) {
-
-    if (mensagemEl) {
-      mensagemEl.textContent = texto;
-    }
-
-  }
-
-
-  /* =========================
-     ENTRAR
-  ========================= */
-
-  btnEntrar?.addEventListener("click", async () => {
-
-    console.log("🟢 BOTÃO ENTRAR CLICADO");
-
-    const email = emailInput.value.trim();
-    const senha = senhaInput.value;
-
-    if (!email || !senha) {
-
-      mostrarMensagem("⚠️ Preencha o e-mail e a senha.");
-
-      return;
-    }
-
-    try {
-
-      mostrarMensagem("Entrando...");
-
-      await signInWithEmailAndPassword(
-        auth,
-        email,
-        senha
-      );
-
-      mostrarMensagem("✅ Login realizado!");
-
-    } catch (error) {
-
-      console.error(error);
-
-      if (
-        error.code === "auth/invalid-credential" ||
-        error.code === "auth/wrong-password" ||
-        error.code === "auth/user-not-found"
-      ) {
-
-        mostrarMensagem("❌ E-mail ou senha incorretos.");
-
-      } else {
-
-        mostrarMensagem("❌ " + error.message);
-
+      if (!email || !senha) {
+        alert("⚠️ Digite seu e-mail e sua senha.");
+        return;
       }
 
-    }
+      try {
 
-  });
-
-
-  /* =========================
-     CRIAR CONTA
-  ========================= */
-
-  btnCriar?.addEventListener("click", async () => {
-
-    console.log("🟢 BOTÃO CRIAR CONTA CLICADO");
-
-    const email = emailInput.value.trim();
-    const senha = senhaInput.value;
-
-    if (!email) {
-
-      mostrarMensagem("⚠️ Digite um e-mail.");
-
-      return;
-    }
-
-    if (!senha) {
-
-      mostrarMensagem("⚠️ Digite uma senha.");
-
-      return;
-    }
-
-    if (senha.length < 6) {
-
-      mostrarMensagem(
-        "❌ A senha precisa ter pelo menos 6 caracteres."
-      );
-
-      return;
-    }
-
-
-    try {
-
-      mostrarMensagem("Criando conta...");
-
-      const resultado =
-        await createUserWithEmailAndPassword(
+        await signInWithEmailAndPassword(
           auth,
           email,
           senha
         );
 
-      console.log(
-        "🎉 CONTA CRIADA:",
-        resultado.user.email
-      );
+        console.log("Login realizado com sucesso!");
 
-      mostrarMensagem(
-        "🎉 Conta criada com sucesso!"
-      );
+      } catch (error) {
 
-    } catch (error) {
+        console.error(error);
 
-      console.error(error);
+        switch (error.code) {
 
-      switch (error.code) {
+          case "auth/invalid-credential":
+          case "auth/wrong-password":
+          case "auth/user-not-found":
+            alert("❌ E-mail ou senha incorretos.");
+            break;
 
-        case "auth/email-already-in-use":
+          case "auth/invalid-email":
+            alert("❌ Digite um e-mail válido.");
+            break;
 
-          mostrarMensagem(
-            "❌ Esse e-mail já está cadastrado."
-          );
+          case "auth/too-many-requests":
+            alert("⚠️ Muitas tentativas. Tente novamente mais tarde.");
+            break;
 
-          break;
-
-
-        case "auth/invalid-email":
-
-          mostrarMensagem(
-            "❌ E-mail inválido."
-          );
-
-          break;
-
-
-        case "auth/weak-password":
-
-          mostrarMensagem(
-            "❌ A senha precisa ter pelo menos 6 caracteres."
-          );
-
-          break;
-
-
-        case "auth/operation-not-allowed":
-
-          mostrarMensagem(
-            "❌ Ative E-mail/Senha no Firebase Authentication."
-          );
-
-          break;
-
-
-        default:
-
-          mostrarMensagem(
-            "❌ " + error.message
-          );
-
+          default:
+            alert("❌ Erro ao entrar:\n" + error.message);
+        }
       }
-
-    }
-
-  });
+    });
+  }
 
 
-  /* =========================
-     GOOGLE
-  ========================= */
+  // ========================================
+  // GOOGLE
+  // ========================================
 
-  btnGoogle?.addEventListener("click", async () => {
+  const btnGoogle = document.getElementById("btnGoogle");
 
-    console.log("🟢 BOTÃO GOOGLE CLICADO");
+  if (btnGoogle) {
 
-    try {
+    btnGoogle.addEventListener("click", async () => {
 
-      mostrarMensagem("Abrindo Google...");
+      try {
 
-      const resultado =
-        await signInWithPopup(
-          auth,
-          googleProvider
+        await signInWithPopup(auth, googleProvider);
+
+        console.log("Login com Google realizado!");
+
+      } catch (error) {
+
+        console.error(error);
+
+        if (error.code === "auth/popup-closed-by-user") {
+          return;
+        }
+
+        alert(
+          "❌ Erro no login com Google:\n" +
+          error.message
         );
+      }
+    });
+  }
 
-      console.log(
-        "🎉 GOOGLE:",
-        resultado.user.email
-      );
 
-    } catch (error) {
+  // ========================================
+  // LOGOUT
+  // ========================================
 
-      console.error(error);
+  const btnVoltar = document.getElementById("btnVoltar");
 
-      mostrarMensagem(
-        "❌ Google: " + error.message
-      );
+  if (btnVoltar) {
 
+    btnVoltar.addEventListener("click", async () => {
+
+      try {
+
+        await signOut(auth);
+
+      } catch (error) {
+
+        console.error(error);
+
+        alert("❌ Erro ao sair da conta.");
+      }
+    });
+  }
+
+
+  // ========================================
+  // TELA 2 → TELA 3
+  // ========================================
+
+  document.getElementById("btnipmlbb")?.addEventListener(
+    "click",
+    () => {
+      trocarTela("tela2", "tela3");
     }
-
-  });
-
-
-  /* =========================
-     VOLTAR / LOGOUT
-  ========================= */
-
-  btnVoltar?.addEventListener("click", async () => {
-
-    console.log("🟢 LOGOUT");
-
-    await signOut(auth);
-
-  });
+  );
 
 
-  /* =========================
-     TELA 3
-  ========================= */
+  // ========================================
+  // TELA 3 → TELA 2
+  // ========================================
 
-  btnTela3?.addEventListener("click", () => {
-
-    trocarTela("tela2", "tela3");
-
-  });
-
-
-  /* =========================
-     VOLTAR PARA TELA 2
-  ========================= */
-
-  btnVoltarTela3?.addEventListener("click", () => {
-
-    trocarTela("tela3", "tela2");
-
-  });
+  document.getElementById("btnVoltarTela3")?.addEventListener(
+    "click",
+    () => {
+      trocarTela("tela3", "tela2");
+    }
+  );
 
 });
