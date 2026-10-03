@@ -7,79 +7,54 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<!DOCTYPE html>
-<html lang="pt">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Meu Primeiro Site - Index 2</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-<!-- TELA 1 (Login / Cadastro) -->
-<div id="tela1">
 
-  <h1>Acessar Conta</h1>
-  <p id="textoLogin">Entre ou crie sua conta para começar</p>
+  <!-- TELA 1 (Login / Cadastro) -->
+  <div id="tela1">
+    <h1>Acessar Conta</h1>
+    <p id="textoLogin">Entre ou crie sua conta para começar</p>
 
-  <div class="login-card">
+    <div class="login-card">
+      <!-- E-MAIL -->
+      <div class="campo-input">
+        <label for="usuario">E-mail</label>
+        <input
+          type="email"
+          id="usuario"
+          placeholder="Digite seu e-mail..."
+          autocomplete="email"
+        >
+      </div>
 
-    <!-- E-MAIL -->
-    <div class="campo-input">
-      <label for="usuario">E-mail</label>
+      <!-- SENHA -->
+      <div class="campo-input">
+        <label for="senha">Senha</label>
+        <input
+          type="password"
+          id="senha"
+          placeholder="Digite sua senha..."
+          autocomplete="current-password"
+        >
+      </div>
 
-      <input
-        type="email"
-        id="usuario"
-        placeholder="Digite seu e-mail..."
-        autocomplete="email"
-      >
+      <!-- ENTRAR -->
+      <button type="button" id="btnComecar">Entrar</button>
+
+      <!-- CRIAR CONTA -->
+      <button type="button" id="btnCriarConta">Criar conta</button>
+
+      <!-- SEPARADOR -->
+      <div class="separador">
+        <span>OU</span>
+      </div>
+
+      <!-- GOOGLE -->
+      <button type="button" id="btnGoogle">Entrar com Google</button>
+
+      <!-- MENSAGEM -->
+      <p id="mensagemLogin"></p>
     </div>
-
-
-    <!-- SENHA -->
-    <div class="campo-input">
-      <label for="senha">Senha</label>
-
-      <input
-        type="password"
-        id="senha"
-        placeholder="Digite sua senha..."
-        autocomplete="current-password"
-      >
-    </div>
-
-
-    <!-- ENTRAR -->
-    <button type="button" id="btnComecar">
-      Entrar
-    </button>
-
-
-    <!-- CRIAR CONTA -->
-    <button type="button" id="btnCriarConta">
-      Criar conta
-    </button>
-
-
-    <!-- SEPARADOR -->
-    <div class="separador">
-      <span>OU</span>
-    </div>
-
-
-    <!-- GOOGLE -->
-    <button type="button" id="btnGoogle">
-      🔵 Entrar com Google
-    </button>
-
-
-    <!-- MENSAGEM -->
-    <p id="mensagemLogin"></p>
-
   </div>
 
-</div>
   <!-- TELA 2 (Carrossel) -->
   <div id="tela2" class="escondida">
     <h1>Bem-vindo ao meu site!!</h1>
@@ -130,12 +105,14 @@
 
     <button id="btnVoltarTela3">Voltar à Tela 2</button>
   </div>
+
   <!-- TELA 4 (Loja de Tarot & Pedidos) -->
   <div id="tela4" class="escondida">
     <h1>Loja 🔮</h1>
 
     <div class="caixa-container">
       
+      <!-- CARTÃO 1: TIRAGEM -->
       <div class="quadradinho">
         <img src="98F06098-1B06-45F7-9DCA-1EFA931209A8.jpeg" class="imagem-card" alt="Tarot">
         <span class="tag">FAZER PEDIDO</span>
@@ -157,123 +134,30 @@
           <input type="text" id="perguntaTarot" placeholder="Ex: O que o futuro reserva para o meu amor?">
         </div>
 
-        <!-- Botão que salva no Firestore -->
-        <button id="btnEnviarPedido">Confirmar Pedido no Firestore</button>
+        <!-- Botão de Enviar Pedido -->
+        <button id="btnEnviarPedido"> Enviar pedido no WhatsApp </button>
 
         <hr style="border: 0; border-top: 1px solid rgba(255,255,255,0.1); margin: 15px 0;">
 
         <!-- Botões de Pagamento e Contato -->
-        <button onclick="copiarPix('SUA_CHAVE_PIX_AQUI')">📋 Copiar Chave Pix</button>
+        <button onclick="copiarPix('5511969055944')">📋 Copiar Chave Pix</button>
 
-        <button onclick="window.open('https://wa.me/55DDDNUMERO?text=Ol%C3%A1!%20Fiz%20meu%20pedido%20pelo%20site%20e%20paguei%20o%20Pix.', '_blank')" style="margin-top: 8px;">
+        <button onclick="window.open('https://wa.me/5511969055944?text=Ol%C3%A1!%20Fiz%20meu%20pedido%20pelo%20site%20e%20paguei%20o%20Pix.', '_blank')" style="margin-top: 8px;">
           💬 Confirmar no WhatsApp
         </button>
+      </div>
+
+      <!-- CARTÃO 2: MAIS SERVIÇOS EM BREVE (AGORA DENTRO DO CARROSSEL) -->
+      <div class="quadradinho" style="border-left-color: #ffaa00; text-align: center; display: flex; flex-direction: column; justify-content: center;">
+        <span class="tag" style="background: rgba(255, 170, 0, 0.2); color: #ffaa00; align-self: center;">Novidade</span>
+        <h3 style="color: #ffaa00;">Mais Serviços em Breve</h3>
+        <p>Estamos preparando novas opções e funcionalidades incríveis para você. Fique atento às atualizações! 🚀</p>
       </div>
 
     </div>
 
     <button onclick="trocarTela('tela4', 'tela3')">Voltar à Tela 3</button>
   </div>
-
-
-  <script type="module" src="script.js"></script>
-</body>
-</html>
-  <!-- TELA 2 (Carrossel) -->
-  <div id="tela2" class="escondida">
-    <h1>Bem-vindo ao meu site!!</h1>
-
-    <div class="caixa-container">
-      <div class="quadradinho">
-        <span class="tag">DEV LOG</span>
-        <h3>✨ Informação 1</h3>
-        <p>Bem vindos ao meu site, aqui estou aprendendo a programar um site!</p>
-      </div>
-
-      <div class="quadradinho">
-        <span class="tag">PROJETOS</span>
-        <h3>🚀 Informação 2</h3>
-        <p>Aqui podes colocar novidades e conquistas do projeto.</p>
-      </div>
-
-      <div class="quadradinho">
-        <span class="tag">EXTRA</span>
-        <h3>🎮 Informação 3</h3>
-        <p>Deslize para os lados para navegar entre os cartões.</p>
-      </div>
-
-      <div class="quadradinho">
-        <span class="tag">AVANÇAR</span>
-        <h3>🔥 Ir para Tela 3</h3>
-        <p>Clique no botão abaixo para ir para a próxima página.</p>
-        <button id="btnipmlbb">Ir para Tela 3</button>
-      </div>
-    </div>
-
-    <button id="btnVoltar">Voltar ao Início</button>
-  </div>
-
-  <!-- TELA 3 -->
-  <div id="tela3" class="escondida">
-    <h1>Bem-vindo à Tela 3!!</h1>
-
-    <div class="caixa-container">
-      <div class="quadradinho">
-        <img src="98F06098-1B06-45F7-9DCA-1EFA931209A8.jpeg" class="imagem-card" alt="Loja">       
-        <span class="tag">TELA 3</span>
-        <h3>🛍️ Loja</h3>
-        <p>Venha ver os meus serviços aqui.</p> 
-        <button onclick="trocarTela('tela3', 'tela4')">Ir para a Loja</button>
-      </div>
-    </div>
-
-    <button id="btnVoltarTela3">Voltar à Tela 2</button>
-  </div>
-  <!-- TELA 4 (Loja de Tarot & Pedidos) -->
-  <div id="tela4" class="escondida">
-    <h1>Loja 🔮</h1>
-
-    <div class="caixa-container">
-      
-      <div class="quadradinho">
-        <img src="98F06098-1B06-45F7-9DCA-1EFA931209A8.jpeg" class="imagem-card" alt="Tarot">
-        <span class="tag">FAZER PEDIDO</span>
-        <h3>🔮 Agendar Tiragem</h3>
-        
-        <!-- Seleção do tipo de tiragem -->
-        <div class="campo-input" style="margin-bottom: 12px;">
-          <label for="tipoTiragem">Selecione a Tiragem</label>
-          <select id="tipoTiragem" style="padding: 12px; border-radius: 12px; background: rgba(255,255,255,0.08); color: white; border: 1px solid rgba(255,255,255,0.2); outline: none;">
-            <option value="Pergunta Rápida - R$1" style="color: black;">Pergunta Rápida - R$1</option>
-            <option value="Tiragem 3 Cartas - R$5" style="color: black;">Tiragem 3 Cartas - R$5</option>
-            <option value="Tiragem Completa - R$15" style="color: black;">Tiragem Completa - R$15</option>
-          </select>
-        </div>
-
-        <!-- Campo da Pergunta -->
-        <div class="campo-input" style="margin-bottom: 12px;">
-          <label for="perguntaTarot">Sua Pergunta ou Tema</label>
-          <input type="text" id="perguntaTarot" placeholder="Ex: O que o futuro reserva para o meu amor?">
-        </div>
-
-        <!-- Botão que salva no Firestore -->
-        <button id="btnEnviarPedido">Confirmar Pedido no Firestore</button>
-
-        <hr style="border: 0; border-top: 1px solid rgba(255,255,255,0.1); margin: 15px 0;">
-
-        <!-- Botões de Pagamento e Contato -->
-        <button onclick="copiarPix('SUA_CHAVE_PIX_AQUI')">📋 Copiar Chave Pix</button>
-
-        <button onclick="window.open('https://wa.me/55DDDNUMERO?text=Ol%C3%A1!%20Fiz%20meu%20pedido%20pelo%20site%20e%20paguei%20o%20Pix.', '_blank')" style="margin-top: 8px;">
-          💬 Confirmar no WhatsApp
-        </button>
-      </div>
-
-    </div>
-
-    <button onclick="trocarTela('tela4', 'tela3')">Voltar à Tela 3</button>
-  </div>
-
 
   <script type="module" src="script.js"></script>
 </body>
