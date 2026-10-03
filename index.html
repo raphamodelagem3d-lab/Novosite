@@ -68,15 +68,62 @@
 
     <div class="caixa-container">
       <div class="quadradinho">
+        <img src="98F06098-1B06-45F7-9DCA-1EFA931209A8.jpeg" class="imagem-card" alt="Loja">       
         <span class="tag">TELA 3</span>
-        <h3>🔥 Conteúdo Secreto</h3>
-        <p>conteúdo da terceira tela aq bb.</p>
+        <h3>🛍️ Loja</h3>
+        <p>Venha ver os meus serviços aqui.</p> 
+        <button onclick="trocarTela('tela3', 'tela4')">Ir para a Loja</button>
       </div>
     </div>
 
     <button id="btnVoltarTela3">Voltar à Tela 2</button>
   </div>
+  <!-- TELA 4 (Loja de Tarot & Pedidos) -->
+  <div id="tela4" class="escondida">
+    <h1>Loja 🔮</h1>
 
-  <script src="script.js"></script>
+    <div class="caixa-container">
+      
+      <div class="quadradinho">
+        <img src="98F06098-1B06-45F7-9DCA-1EFA931209A8.jpeg" class="imagem-card" alt="Tarot">
+        <span class="tag">FAZER PEDIDO</span>
+        <h3>🔮 Agendar Tiragem</h3>
+        
+        <!-- Seleção do tipo de tiragem -->
+        <div class="campo-input" style="margin-bottom: 12px;">
+          <label for="tipoTiragem">Selecione a Tiragem</label>
+          <select id="tipoTiragem" style="padding: 12px; border-radius: 12px; background: rgba(255,255,255,0.08); color: white; border: 1px solid rgba(255,255,255,0.2); outline: none;">
+            <option value="Pergunta Rápida - R$1" style="color: black;">Pergunta Rápida - R$1</option>
+            <option value="Tiragem 3 Cartas - R$5" style="color: black;">Tiragem 3 Cartas - R$5</option>
+            <option value="Tiragem Completa - R$15" style="color: black;">Tiragem Completa - R$15</option>
+          </select>
+        </div>
+
+        <!-- Campo da Pergunta -->
+        <div class="campo-input" style="margin-bottom: 12px;">
+          <label for="perguntaTarot">Sua Pergunta ou Tema</label>
+          <input type="text" id="perguntaTarot" placeholder="Ex: O que o futuro reserva para o meu amor?">
+        </div>
+
+        <!-- Botão que salva no Firestore -->
+        <button id="btnEnviarPedido">Confirmar Pedido no Firestore</button>
+
+        <hr style="border: 0; border-top: 1px solid rgba(255,255,255,0.1); margin: 15px 0;">
+
+        <!-- Botões de Pagamento e Contato -->
+        <button onclick="copiarPix('SUA_CHAVE_PIX_AQUI')">📋 Copiar Chave Pix</button>
+
+        <button onclick="window.open('https://wa.me/55DDDNUMERO?text=Ol%C3%A1!%20Fiz%20meu%20pedido%20pelo%20site%20e%20paguei%20o%20Pix.', '_blank')" style="margin-top: 8px;">
+          💬 Confirmar no WhatsApp
+        </button>
+      </div>
+
+    </div>
+
+    <button onclick="trocarTela('tela4', 'tela3')">Voltar à Tela 3</button>
+  </div>
+
+
+  <script type="module" src="script.js"></script>
 </body>
 </html>

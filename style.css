@@ -218,15 +218,19 @@ button:active {
   max-width: 260px;
 }
 
-/* Imagens dos cartões */
+/* Imagens dos cartões (Ajuste Automático) */
+.quadradinho img,
 .imagem-card {
   width: 100%;
-  height: 140px;
-  object-fit: cover;
+  max-width: 100%;
+  height: 120px; /* Altere para 100px ou 140px se quiser maior/menor */
+  object-fit: cover; /* Corta a imagem com precisão sem distorcer */
   border-radius: 12px;
   margin-bottom: 12px;
   border: 1px solid rgba(255, 255, 255, 0.15);
+  display: block;
 }
+
 
 /* --- ANIMAÇÃO DE ENTRADA --- */
 @keyframes subirEntrada {
@@ -248,5 +252,54 @@ button:active {
 
 #tela2:not(.escondida) .quadradinho,
 #tela3:not(.escondida) .quadradinho {
+  animation: subirEntrada 0.6s ease-out forwards;
+}
+
+/* 1. Layout geral da tela */
+#tela2, #tela3, #tela4 {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  padding: 30px 20px;
+  box-sizing: border-box;
+  background: radial-gradient(circle at top right, #1a0826, #0a0512);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* 2. Título da tela */
+#tela2 h1, #tela3 h1, #tela4 h1 {
+  font-size: 26px;
+  font-weight: 900;
+  margin: 0 0 15px 0;
+  background: linear-gradient(90deg, #ff0055, #ffaa00);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* 3. Botão da tela */
+#tela2 button, #tela3 button, #tela4 button {
+  position: static !important;
+  align-self: center;
+  margin-top: 15px;
+  width: 100%;
+  max-width: 260px;
+}
+
+/* 4. Animação de entrada */
+#tela1:not(.escondida),
+#tela2:not(.escondida), 
+#tela3:not(.escondida),
+#tela4:not(.escondida) {
+  animation: subirEntrada 0.5s ease-out forwards;
+}
+
+#tela2:not(.escondida) .quadradinho,
+#tela3:not(.escondida) .quadradinho,
+#tela4:not(.escondida) .quadradinho {
   animation: subirEntrada 0.6s ease-out forwards;
 }
