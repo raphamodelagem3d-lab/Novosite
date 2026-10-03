@@ -199,3 +199,32 @@ document.addEventListener("DOMContentLoaded", () => {
   );
 
 });
+  // ========================================
+  // 3. BOTÃO DO GOOGLE
+  // ========================================
+  const btnGoogle = document.getElementById("btnGoogle");
+
+  if (btnGoogle) {
+    btnGoogle.addEventListener("click", async () => {
+      try {
+        // Abre o pop-up do Google para o usuário escolher a conta
+        const result = await signInWithPopup(auth, googleProvider);
+        const user = result.user;
+        
+        console.log("Logado com sucesso via Google:", user.displayName || user.email);
+        alert(`✨ Bem-vindo(a), ${user.displayName || user.email}!`);
+
+      } catch (error) {
+        console.error("Erro no Google Login:", error);
+
+        if (error.code === "auth/popup-closed-by-user") {
+          // O usuário apenas fechou a janela do Google, não precisa dar erro grave
+          console.log("Janela do Google fechada pelo usuário.");
+        } else if (error.code === "auth/operation-not-allowed") {
+          alert("❌ O login do Google ainda não foi ativado no Console do Firebase! Ative na aba Authentication -> Sign-in method.");
+        } else {
+          alert("❌ Erro ao entrar com o Google:\n" + error.message);
+        }
+      }
+    });
+  }
