@@ -269,6 +269,20 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     }
   });
+  // 7. Botão Sair (Logout)
+  document.getElementById("btnSair")?.addEventListener("click", async () => {
+    const confirmar = confirm("Tem certeza que deseja sair da sua conta?");
+    if (!confirmar) return;
+
+    try {
+      await signOut(auth);
+      console.log("Usuário deslogado com sucesso!");
+    } catch (error) {
+      console.error("Erro ao sair:", error);
+      alert("❌ Erro ao encerrar sessão: " + error.message);
+    }
+  });
+
 
   // 3. Login com Google
   document.getElementById("btnGoogle")?.addEventListener("click", async () => {
