@@ -66,25 +66,30 @@
   <!-- TELA 2 (Carrossel) -->
   <div id="tela2" class="escondida" style="position: relative;">
 
-    <!-- PERFIL DO USUÁRIO -->
-    <div id="perfilUsuario" style="position: absolute; top: 15px; right: 15px; display: flex; align-items: center; gap: 8px; background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(10px); padding: 6px 12px; border-radius: 25px; border: 1px solid rgba(255, 255, 255, 0.2); z-index: 1000;">
-      <div id="avatarBolinha" style="width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, #ff0055, #ffaa00); display: flex; align-items: center; justify-content: center; font-weight: bold; color: white; font-size: 14px; overflow: hidden; background-size: cover; background-position: center;">
-        U
-      </div>
-      <span id="nomeExibicao" style="font-weight: bold; font-size: 13px; color: white;">Usuário</span>
-      
-      <button id="btnEditarNome" style="background: transparent; border: none; color: #ffaa00; cursor: pointer; font-size: 14px; padding: 2px 4px; width: auto; margin: 0; box-shadow: none;" title="Editar Nome">
-        <i class="fa-solid fa-pen-to-square"></i>
-      </button>
-      
-      <button id="btnVincularPix" onclick="document.getElementById('modalVincularPix').classList.remove('escondida')" style="background: transparent; border: none; color: #25D366; cursor: pointer; font-size: 14px; padding: 2px 4px; width: auto; margin: 0; box-shadow: none;" title="Vincular Pix">
-        <i class="fa-solid fa-key"></i>
-      </button>
+<!-- PERFIL DO USUÁRIO -->
+<div id="perfilUsuario" style="position: absolute; top: 15px; right: 15px; display: flex; align-items: center; gap: 8px; background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(10px); padding: 6px 12px; border-radius: 25px; border: 1px solid rgba(255, 255, 255, 0.2); z-index: 1000;">
+  <div id="avatarBolinha" style="width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, #ff0055, #ffaa00); display: flex; align-items: center; justify-content: center; font-weight: bold; color: white; font-size: 14px; overflow: hidden; background-size: cover; background-position: center;">
+    U
+  </div>
+  <span id="nomeExibicao" style="font-weight: bold; font-size: 13px; color: white;">Usuário</span>
+  
+  <!-- BOTÃO MODO COMPUTADOR / CELULAR -->
+  <button id="btnAlternarModo" onclick="alternarModoExibicao()" style="background: rgba(255, 255, 255, 0.15); border: 1px solid rgba(255, 255, 255, 0.3); color: #fff; cursor: pointer; font-size: 12px; padding: 4px 10px; border-radius: 15px; width: auto; margin: 0; display: flex; align-items: center; gap: 5px;" title="Alternar Modo">
+    <i class="fa-solid fa-desktop"></i> <span>Modo PC</span>
+  </button>
 
-      <button id="btnSair" style="background: transparent; border: none; color: #ff4d4d; cursor: pointer; font-size: 14px; padding: 2px 4px; width: auto; margin: 0; box-shadow: none;" title="Sair da Conta">
-        <i class="fa-solid fa-right-from-bracket"></i>
-      </button>
-    </div>
+  <button id="btnEditarNome" style="background: transparent; border: none; color: #ffaa00; cursor: pointer; font-size: 14px; padding: 2px 4px; width: auto; margin: 0; box-shadow: none;" title="Editar Nome">
+    <i class="fa-solid fa-pen-to-square"></i>
+  </button>
+  
+  <button id="btnVincularPix" onclick="document.getElementById('modalVincularPix').classList.remove('escondida')" style="background: transparent; border: none; color: #25D366; cursor: pointer; font-size: 14px; padding: 2px 4px; width: auto; margin: 0; box-shadow: none;" title="Vincular Pix">
+    <i class="fa-solid fa-key"></i>
+  </button>
+
+  <button id="btnSair" style="background: transparent; border: none; color: #ff4d4d; cursor: pointer; font-size: 14px; padding: 2px 4px; width: auto; margin: 0; box-shadow: none;" title="Sair da Conta">
+    <i class="fa-solid fa-right-from-bracket"></i>
+  </button>
+</div>
 
     <h1>Bem-vindo ao meu site!!</h1>
 

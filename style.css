@@ -303,3 +303,42 @@ button:active {
 #tela4:not(.escondida) .quadradinho {
   animation: subirEntrada 0.6s ease-out forwards;
 }
+/* ==========================================
+   REGRAS PARA O MODO COMPUTADOR
+   ========================================== */
+
+/* Limite e centralização da página no PC */
+body.modo-computador {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+/* Transforma o container de cards em uma Grid lado a lado */
+body.modo-computador .caixa-container {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)) !important;
+  gap: 25px !important;
+  overflow-x: visible !important;
+  justify-content: center;
+  padding: 20px 0;
+}
+
+/* Ajusta a largura dos cartões individualmente */
+body.modo-computador .quadradinho {
+  width: 100% !important;
+  min-width: 0 !important;
+  max-width: none !important;
+}
+
+/* Centraliza o card de Login no PC */
+body.modo-computador .login-card {
+  max-width: 450px;
+  margin: 0 auto;
+}
+
+/* Ajusta modais para telas grandes */
+body.modo-computador #modalPagamento > div,
+body.modo-computador #modalVincularPix > div {
+  max-width: 480px;
+}

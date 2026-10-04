@@ -103,6 +103,39 @@ async function salvarPixCliente(tipo, chave) {
 // ==========================================
 // FUNÇÕES GLOBAIS (EXPOSTAS NO WINDOW PARA HTML)
 // ==========================================
+// ==========================================
+// MODO COMPUTADOR / CELULAR
+// ==========================================
+
+function atualizarBotaoModo(ehComputador) {
+  const btn = document.getElementById("btnAlternarModo");
+  if (!btn) return;
+
+  if (ehComputador) {
+    btn.innerHTML = `<i class="fa-solid fa-mobile-screen"></i> <span>Modo Celular</span>`;
+  } else {
+    btn.innerHTML = `<i class="fa-solid fa-desktop"></i> <span>Modo PC</span>`;
+  }
+}
+
+window.alternarModoExibicao = function() {
+  const body = document.body;
+  body.classList.toggle("modo-computador");
+
+  const ehComputador = body.classList.contains("modo-computador");
+  localStorage.setItem("modoExibicao", ehComputador ? "computador" : "celular");
+
+  atualizarBotaoModo(ehComputador);
+};
+
+// Aplica o modo salvo automaticamente ao carregar a página
+document.addEventListener("DOMContentLoaded", () => {
+  const modoSalvo = localStorage.getItem("modoExibicao");
+  if (modoSalvo === "computador") {
+    document.body.classList.add("modo-computador");
+    atualizarBotaoModo(true);
+  }
+});
 
 window.salvarPixCliente = salvarPixCliente;
 window.carregarPixCliente = carregarPixCliente;
