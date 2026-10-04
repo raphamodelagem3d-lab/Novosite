@@ -141,13 +141,13 @@
     </button>
   </div>
 
-  <!-- TELA 4 (Loja de Tarot & Pedidos) -->
+    <!-- TELA 4 (Loja de Serviços: Tarot, Edição & Pedidos) -->
   <div id="tela4" class="escondida">
     <h1>Loja <i class="fa-solid fa-wand-magic-sparkles"></i></h1>
 
     <div class="caixa-container">
       
-      <!-- CARTÃO 1: TIRAGEM -->
+      <!-- CARTÃO 1: TIRAGEM DE TAROT -->
       <div class="quadradinho">
         <img src="98F06098-1B06-45F7-9DCA-1EFA931209A8.jpeg" class="imagem-card" alt="Tarot">
         <span class="tag">FAZER PEDIDO</span>
@@ -169,21 +169,55 @@
           <input type="text" id="perguntaTarot" placeholder="Ex: O que o futuro reserva para o meu amor?">
         </div>
 
-        <!-- Botão para Abrir o Bloqueio/Pagamento -->
+        <!-- Botão de Pagamento -->
         <button onclick="bloquearPorPagamento()" style="background: #ffaa00; color: #000; font-weight: bold;">
           <i class="fa-solid fa-credit-card"></i> Finalizar Pedido (Pix)
         </button>
-
       </div>
 
-      <!-- CARTÃO 2: MAIS SERVIÇOS EM BREVE -->
-      <div class="quadradinho" style="border-left-color: #ffaa00; text-align: center; display: flex; flex-direction: column; justify-content: center;">
-        <span class="tag" style="background: rgba(255, 170, 0, 0.2); color: #ffaa00; align-self: center;">Novidade</span>
+      <!-- CARTÃO 2: EDIÇÃO DE VÍDEO (NOVO) -->
+      <div class="quadradinho">
+        <img src="98F06098-1B06-45F7-9DCA-1EFA931209A8.jpeg" class="imagem-card" alt="Edição de Vídeo">
+        <span class="tag">FAZER PEDIDO</span>
+        <h3><i class="fa-solid fa-clapperboard"></i> Edição de Vídeo</h3>
+        
+        <!-- Seleção do tipo de vídeo/edição -->
+        <div class="campo-input" style="margin-bottom: 12px;">
+          <label for="tipoEdicaoVideo">Selecione o Pacote</label>
+          <select id="tipoEdicaoVideo" style="padding: 12px; border-radius: 12px; background: rgba(255,255,255,0.08); color: white; border: 1px solid rgba(255,255,255,0.2); outline: none;">
+            <option value="Vídeo Curto / Reels / TikTok (até 1 min) - R$15" style="color: black;">Shorts / Reels / TikTok (até 1 min) - R$15</option>
+            <option value="Vídeo para YouTube / Vlog (até 5 min) - R$35" style="color: black;">YouTube / Vlog (até 5 min) - R$35</option>
+            <option value="Edição Dinâmica / Motion / AMV (até 10 min) - R$60" style="color: black;">Edição Avançada / Motion (até 10 min) - R$60</option>
+          </select>
+        </div>
+
+        <!-- Campo com link do arquivo ou instruções -->
+        <div class="campo-input" style="margin-bottom: 12px;">
+          <label for="detalhesVideo">Link dos Vídeos/Drive ou Detalhes</label>
+          <input type="text" id="detalhesVideo" placeholder="Ex: Link do Google Drive/Dropbox e ideia do projeto...">
+        </div>
+
+        <!-- Botão de Pagamento -->
+        <button onclick="bloquearPorPagamento()" style="background: #ffaa00; color: #000; font-weight: bold;">
+          <i class="fa-solid fa-credit-card"></i> Finalizar Pedido (Pix)
+        </button>
+      </div>
+
+      <!-- CARTÃO 3: EM BREVE (AO LADO DOS OUTROS) -->
+      <div class="quadradinho" style="border-left-color: #ffaa00; text-align: center; display: flex; flex-direction: column; justify-content: center; min-width: 250px;">
+        <span class="tag" style="background: rgba(255, 170, 0, 0.2); color: #ffaa00; align-self: center;">
+          <i class="fa-solid fa-plus"></i> Novidade
+        </span>
         <h3 style="color: #ffaa00;"><i class="fa-solid fa-star"></i> Mais Serviços em Breve</h3>
-        <p>Estamos preparando novas opções e funcionalidades incríveis para você. Fique atento às atualizações! 🚀</p>
+        <p>Estamos preparando novos serviços de artes, vinhetas e novos recursos. Fique atento às novidades! 🚀</p>
       </div>
 
     </div>
+
+    <button onclick="trocarTela('tela4', 'tela3')">
+      <i class="fa-solid fa-arrow-left"></i> Voltar à Tela 3
+    </button>
+  </div>
 
     <button onclick="trocarTela('tela4', 'tela3')">
       <i class="fa-solid fa-arrow-left"></i> Voltar à Tela 3
