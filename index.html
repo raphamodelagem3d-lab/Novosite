@@ -141,14 +141,14 @@
     </button>
   </div>
 
-    <!-- TELA 4 (Loja de Serviços: Tarot, Edição & Pedidos) -->
+  <!-- TELA 4 (Loja de Serviços: Tarot, Edição & Pedidos) -->
   <div id="tela4" class="escondida">
     <h1>Loja <i class="fa-solid fa-wand-magic-sparkles"></i></h1>
 
     <div class="caixa-container">
       
       <!-- CARTÃO 1: TIRAGEM DE TAROT -->
-      <div class="quadradinho">
+      <div class="quadradinho" style="display: flex; flex-direction: column;">
         <img src="98F06098-1B06-45F7-9DCA-1EFA931209A8.jpeg" class="imagem-card" alt="Tarot">
         <span class="tag">FAZER PEDIDO</span>
         <h3><i class="fa-solid fa-wand-magic-sparkles"></i> Agendar Tiragem</h3>
@@ -169,14 +169,14 @@
           <input type="text" id="perguntaTarot" placeholder="Ex: O que o futuro reserva para o meu amor?">
         </div>
 
-        <!-- Botão de Pagamento -->
-        <button onclick="bloquearPorPagamento()" style="background: #ffaa00; color: #000; font-weight: bold;">
+        <!-- Botão de Pagamento com alinhamento na base -->
+        <button onclick="bloquearPorPagamento('tarot')" style="background: #ffaa00; color: #000; font-weight: bold; margin-top: auto;">
           <i class="fa-solid fa-credit-card"></i> Finalizar Pedido (Pix)
         </button>
       </div>
 
-      <!-- CARTÃO 2: EDIÇÃO DE VÍDEO (NOVO) -->
-      <div class="quadradinho">
+      <!-- CARTÃO 2: EDIÇÃO DE VÍDEO -->
+      <div class="quadradinho" style="display: flex; flex-direction: column;">
         <img src="98F06098-1B06-45F7-9DCA-1EFA931209A8.jpeg" class="imagem-card" alt="Edição de Vídeo">
         <span class="tag">FAZER PEDIDO</span>
         <h3><i class="fa-solid fa-clapperboard"></i> Edição de Vídeo</h3>
@@ -197,13 +197,13 @@
           <input type="text" id="detalhesVideo" placeholder="Ex: Link do Google Drive/Dropbox e ideia do projeto...">
         </div>
 
-        <!-- Botão de Pagamento -->
-        <button onclick="bloquearPorPagamento()" style="background: #ffaa00; color: #000; font-weight: bold;">
+        <!-- Botão de Pagamento com alinhamento na base -->
+        <button onclick="bloquearPorPagamento('video')" style="background: #ffaa00; color: #000; font-weight: bold; margin-top: auto;">
           <i class="fa-solid fa-credit-card"></i> Finalizar Pedido (Pix)
         </button>
       </div>
 
-      <!-- CARTÃO 3: EM BREVE (AO LADO DOS OUTROS) -->
+      <!-- CARTÃO 3: EM BREVE -->
       <div class="quadradinho" style="border-left-color: #ffaa00; text-align: center; display: flex; flex-direction: column; justify-content: center; min-width: 250px;">
         <span class="tag" style="background: rgba(255, 170, 0, 0.2); color: #ffaa00; align-self: center;">
           <i class="fa-solid fa-plus"></i> Novidade
@@ -213,11 +213,6 @@
       </div>
 
     </div>
-
-    <button onclick="trocarTela('tela4', 'tela3')">
-      <i class="fa-solid fa-arrow-left"></i> Voltar à Tela 3
-    </button>
-  </div>
 
     <button onclick="trocarTela('tela4', 'tela3')">
       <i class="fa-solid fa-arrow-left"></i> Voltar à Tela 3

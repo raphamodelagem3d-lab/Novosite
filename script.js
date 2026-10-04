@@ -40,8 +40,9 @@ const auth = getAuth(app);
 const db = getDatabase(app);
 const googleProvider = new GoogleAuthProvider();
 
-// Variável global para armazenar a chave Pix do usuário logado
+// Variáveis globais de estado
 let pixDoClienteSalvo = null;
+let servicoSelecionado = "tarot"; // Guarda se é 'tarot' ou 'video'
 
 
 // ==========================================
@@ -130,7 +131,10 @@ window.copiarPix = function(chave) {
     .catch(() => alert("Erro ao copiar.\nSua chave Pix é:\n" + chave));
 };
 
-window.bloquearPorPagamento = function() {
+// Bloqueia e valida Pix antes de abrir o modal de pagamento
+window.bloquearPorPagamento = function(tipo = "tarot") {
+  servicoSelecionado = tipo;
+
   const chaveValida = typeof pixDoClienteSalvo === 'object' ? pixDoClienteSalvo?.chave : pixDoClienteSalvo;
 
   if (!chaveValida || chaveValida.trim() === "") {
@@ -144,11 +148,10 @@ window.bloquearPorPagamento = function() {
   if (modalPagamento) modalPagamento.classList.remove("escondida");
 };
 
+// Formata e envia a mensagem para o WhatsApp com base no serviço selecionado
 window.confirmarEEnviar = function() {
   const usuarioAtual = auth.currentUser;
   const nomeConta = usuarioAtual ? (usuarioAtual.displayName || usuarioAtual.email) : "Cliente";
-  const tipoTiragem = document.getElementById("tipoTiragem")?.value || "Tiragem";
-  const pergunta = document.getElementById("perguntaTarot")?.value.trim() || "Não informada";
   
   let infoPixMsg = "Não cadastrado";
   if (pixDoClienteSalvo) {
@@ -159,12 +162,29 @@ window.confirmarEEnviar = function() {
     }
   }
 
-  const mensagem = `Olá! Fiz meu Pix e gostaria de confirmar meu pedido. 🔮\n\n` +
-                   `👤 *Cliente:* ${nomeConta}\n` +
-                   `📌 *Serviço:* ${tipoTiragem}\n` +
-                   `❓ *Pergunta:* ${pergunta}\n` +
-                   `🔑 *Pix do Cliente:* ${infoPixMsg}\n\n` +
-                   `Segue o comprovante do pagamento em anexo!`;
+  let mensagem = "";
+
+  if (servicoSelecionado === 'video') {
+    const pacote = document.getElementById('tipoEdicaoVideo')?.value || 'Não informado';
+    const detalhes = document.getElementById('detalhesVideo')?.value.trim() || 'Não informado';
+    
+    mensagem = `Olá! Fiz meu Pix e gostaria de confirmar meu pedido de *Edição de Vídeo*. 🎬\n\n` +
+               `👤 *Cliente:* ${nomeConta}\n` +
+               `📦 *Pacote:* ${pacote}\n` +
+               `📝 *Detalhes/Link:* ${detalhes}\n` +
+               `🔑 *Pix do Cliente:* ${infoPixMsg}\n\n` +
+               `Segue o comprovante do pagamento em anexo!`;
+  } else {
+    const tipoTiragem = document.getElementById("tipoTiragem")?.value || "Tiragem";
+    const pergunta = document.getElementById("perguntaTarot")?.value.trim() || "Não informada";
+    
+    mensagem = `Olá! Fiz meu Pix e gostaria de confirmar meu pedido de *Tarot*. 🔮\n\n` +
+               `👤 *Cliente:* ${nomeConta}\n` +
+               `📌 *Serviço:* ${tipoTiragem}\n` +
+               `❓ *Pergunta:* ${pergunta}\n` +
+               `🔑 *Pix do Cliente:* ${infoPixMsg}\n\n` +
+               `Segue o comprovante do pagamento em anexo!`;
+  }
 
   const linkWhatsapp = `https://wa.me/5511969055944?text=${encodeURIComponent(mensagem)}`;
   window.open(linkWhatsapp, "_blank");
