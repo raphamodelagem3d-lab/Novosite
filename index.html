@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Meu Primeiro Site - Index 2</title>
   <link rel="stylesheet" href="style.css">
+  <!-- BIBLIOTECA DE ÍCONES (Font Awesome 6) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body>
 
@@ -36,11 +38,15 @@
         >
       </div>
 
-      <!-- ENTRAR (ID corrigido para btnEntrar) -->
-      <button type="button" id="btnEntrar">Entrar</button>
+      <!-- ENTRAR -->
+      <button type="button" id="btnEntrar">
+        <i class="fa-solid fa-right-to-bracket"></i> Entrar
+      </button>
 
       <!-- CRIAR CONTA -->
-      <button type="button" id="btnCriarConta">Criar conta</button>
+      <button type="button" id="btnCriarConta">
+        <i class="fa-solid fa-user-plus"></i> Criar conta
+      </button>
 
       <!-- SEPARADOR -->
       <div class="separador">
@@ -48,7 +54,9 @@
       </div>
 
       <!-- GOOGLE -->
-      <button type="button" id="btnGoogle">Entrar com Google</button>
+      <button type="button" id="btnGoogle">
+        <i class="fa-brands fa-google"></i> Entrar com Google
+      </button>
 
       <!-- MENSAGEM -->
       <p id="mensagemLogin"></p>
@@ -58,15 +66,24 @@
   <!-- TELA 2 (Carrossel) -->
   <div id="tela2" class="escondida" style="position: relative;">
 
-    <!-- PERFIL DO USUÁRIO (Canto Superior Direito) -->
+    <!-- PERFIL DO USUÁRIO -->
     <div id="perfilUsuario" style="position: absolute; top: 15px; right: 15px; display: flex; align-items: center; gap: 8px; background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(10px); padding: 6px 12px; border-radius: 25px; border: 1px solid rgba(255, 255, 255, 0.2); z-index: 1000;">
       <div id="avatarBolinha" style="width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, #ff0055, #ffaa00); display: flex; align-items: center; justify-content: center; font-weight: bold; color: white; font-size: 14px; overflow: hidden; background-size: cover; background-position: center;">
         U
       </div>
       <span id="nomeExibicao" style="font-weight: bold; font-size: 13px; color: white;">Usuário</span>
-      <button id="btnEditarNome" style="background: transparent; border: none; color: #ffaa00; cursor: pointer; font-size: 14px; padding: 2px 4px; width: auto; margin: 0; box-shadow: none;" title="Editar Nome">✏️</button>
-      <button id="btnVincularPix" onclick="document.getElementById('modalVincularPix').classList.remove('escondida')" style="background: transparent; border: none; color: #25D366; cursor: pointer; font-size: 14px; padding: 2px 4px; width: auto; margin: 0; box-shadow: none;" title="Vincular Pix">🔑</button>
-      <button id="btnSair" style="background: transparent; border: none; color: #ff4d4d; cursor: pointer; font-size: 14px; padding: 2px 4px; width: auto; margin: 0; box-shadow: none;" title="Sair da Conta">🚪</button>
+      
+      <button id="btnEditarNome" style="background: transparent; border: none; color: #ffaa00; cursor: pointer; font-size: 14px; padding: 2px 4px; width: auto; margin: 0; box-shadow: none;" title="Editar Nome">
+        <i class="fa-solid fa-pen-to-square"></i>
+      </button>
+      
+      <button id="btnVincularPix" onclick="document.getElementById('modalVincularPix').classList.remove('escondida')" style="background: transparent; border: none; color: #25D366; cursor: pointer; font-size: 14px; padding: 2px 4px; width: auto; margin: 0; box-shadow: none;" title="Vincular Pix">
+        <i class="fa-solid fa-key"></i>
+      </button>
+
+      <button id="btnSair" style="background: transparent; border: none; color: #ff4d4d; cursor: pointer; font-size: 14px; padding: 2px 4px; width: auto; margin: 0; box-shadow: none;" title="Sair da Conta">
+        <i class="fa-solid fa-right-from-bracket"></i>
+      </button>
     </div>
 
     <h1>Bem-vindo ao meu site!!</h1>
@@ -74,31 +91,33 @@
     <div class="caixa-container">
       <div class="quadradinho">
         <span class="tag">DEV LOG</span>
-        <h3>✨ Informação 1</h3>
+        <h3><i class="fa-solid fa-code"></i> Informação 1</h3>
         <p>Bem vindos ao meu site, aqui estou aprendendo a programar um site!</p>
       </div>
 
       <div class="quadradinho">
         <span class="tag">PROJETOS</span>
-        <h3>🚀 Informação 2</h3>
+        <h3><i class="fa-solid fa-rocket"></i> Informação 2</h3>
         <p>Aqui ainda vou adicionar mais coisas, mas por enquanto está vazio </p>
       </div>
 
       <div class="quadradinho">
         <span class="tag">EXTRA</span>
-        <h3>🎮 Informação 3</h3>
+        <h3><i class="fa-solid fa-gamepad"></i> Informação 3</h3>
         <p>Deslize para os lados para navegar entre os cartões.</p>
       </div>
 
       <div class="quadradinho">
         <span class="tag">AVANÇAR</span>
-        <h3>🔥 Ir para Tela 3</h3>
+        <h3><i class="fa-solid fa-fire"></i> Ir para Tela 3</h3>
         <p>Clique no botão abaixo para ir para a próxima página.</p>
-        <button id="btnipmlbb">Ir para Tela 3</button>
+        <button id="btnipmlbb">Ir para Tela 3 <i class="fa-solid fa-arrow-right"></i></button>
       </div>
     </div>
 
-    <button id="btnVoltar" onclick="trocarTela('tela2', 'tela1')">Voltar ao Início</button>
+    <button id="btnVoltar" onclick="trocarTela('tela2', 'tela1')">
+      <i class="fa-solid fa-arrow-left"></i> Voltar ao Início
+    </button>
   </div>
 
   <!-- TELA 3 -->
@@ -109,18 +128,22 @@
       <div class="quadradinho">
         <img src="98F06098-1B06-45F7-9DCA-1EFA931209A8.jpeg" class="imagem-card" alt="Loja">       
         <span class="tag">TELA 3</span>
-        <h3>🛍️ Loja</h3>
+        <h3><i class="fa-solid fa-store"></i> Loja</h3>
         <p>Venha ver os meus serviços aqui.</p> 
-        <button onclick="trocarTela('tela3', 'tela4')">Ir para a Loja</button>
+        <button onclick="trocarTela('tela3', 'tela4')">
+          Ir para a Loja <i class="fa-solid fa-arrow-right"></i>
+        </button>
       </div>
     </div>
 
-    <button id="btnVoltarTela3">Voltar à Tela 2</button>
+    <button id="btnVoltarTela3">
+      <i class="fa-solid fa-arrow-left"></i> Voltar à Tela 2
+    </button>
   </div>
 
   <!-- TELA 4 (Loja de Tarot & Pedidos) -->
   <div id="tela4" class="escondida">
-    <h1>Loja 🔮</h1>
+    <h1>Loja <i class="fa-solid fa-wand-magic-sparkles"></i></h1>
 
     <div class="caixa-container">
       
@@ -128,7 +151,7 @@
       <div class="quadradinho">
         <img src="98F06098-1B06-45F7-9DCA-1EFA931209A8.jpeg" class="imagem-card" alt="Tarot">
         <span class="tag">FAZER PEDIDO</span>
-        <h3>🔮 Agendar Tiragem</h3>
+        <h3><i class="fa-solid fa-wand-magic-sparkles"></i> Agendar Tiragem</h3>
         
         <!-- Seleção do tipo de tiragem -->
         <div class="campo-input" style="margin-bottom: 12px;">
@@ -148,7 +171,7 @@
 
         <!-- Botão para Abrir o Bloqueio/Pagamento -->
         <button onclick="bloquearPorPagamento()" style="background: #ffaa00; color: #000; font-weight: bold;">
-          💳 Finalizar Pedido (Pix)
+          <i class="fa-solid fa-credit-card"></i> Finalizar Pedido (Pix)
         </button>
 
       </div>
@@ -156,43 +179,40 @@
       <!-- CARTÃO 2: MAIS SERVIÇOS EM BREVE -->
       <div class="quadradinho" style="border-left-color: #ffaa00; text-align: center; display: flex; flex-direction: column; justify-content: center;">
         <span class="tag" style="background: rgba(255, 170, 0, 0.2); color: #ffaa00; align-self: center;">Novidade</span>
-        <h3 style="color: #ffaa00;">Mais Serviços em Breve</h3>
+        <h3 style="color: #ffaa00;"><i class="fa-solid fa-star"></i> Mais Serviços em Breve</h3>
         <p>Estamos preparando novas opções e funcionalidades incríveis para você. Fique atento às atualizações! 🚀</p>
       </div>
 
     </div>
 
-    <button onclick="trocarTela('tela4', 'tela3')">Voltar à Tela 3</button>
+    <button onclick="trocarTela('tela4', 'tela3')">
+      <i class="fa-solid fa-arrow-left"></i> Voltar à Tela 3
+    </button>
   </div>
 
 
-  <!-- ========================================== -->
-  <!-- MODAL DE BLOQUEIO / PAGAMENTO              -->
-  <!-- ========================================== -->
+  <!-- MODAL DE BLOQUEIO / PAGAMENTO -->
   <div id="modalPagamento" class="escondida" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(8px); display: flex; justify-content: center; align-items: center; z-index: 9999;">
     <div style="background: #1e1e2f; padding: 25px; border-radius: 16px; width: 90%; max-width: 400px; text-align: center; border: 1px solid rgba(255, 255, 255, 0.1); color: white;">
       
-      <span style="font-size: 40px;">🔒</span>
+      <i class="fa-solid fa-lock" style="font-size: 40px; color: #ffaa00; margin-bottom: 10px;"></i>
       <h2 style="margin: 10px 0;">Acesso Bloqueado</h2>
       <p style="font-size: 14px; color: #aaa; margin-bottom: 20px;">
         Realize o pagamento via Pix para confirmar seu pedido.
       </p>
 
-      <!-- Exibição da Chave Pix na Tela -->
       <div style="background: rgba(255, 255, 255, 0.05); padding: 12px; border-radius: 10px; font-size: 13px; margin-bottom: 15px; text-align: left;">
         <p style="margin: 3px 0;"><strong>Chave Pix:</strong> <span>5511969055944</span></p>
       </div>
 
-      <!-- Botões do Modal -->
       <button onclick="copiarPix('5511969055944')" style="width: 100%; margin-bottom: 10px; background: #ffaa00; color: #000; font-weight: bold;">
-        📋 Copiar Chave Pix
+        <i class="fa-solid fa-copy"></i> Copiar Chave Pix
       </button>
 
       <button onclick="confirmarEEnviar()" style="width: 100%; margin-bottom: 10px; background: #25D366; color: white; font-weight: bold;">
-        💬 Já Paguei / Confirmar no WhatsApp
+        <i class="fa-brands fa-whatsapp"></i> Já Paguei / Confirmar no WhatsApp
       </button>
 
-      <!-- BOTÃO DE FECHAR DO MODAL PAGAMENTO -->
       <button onclick="fecharModal('modalPagamento')" style="width: 100%; background: transparent; color: #888; border: 1px solid rgba(255,255,255,0.1); font-size: 12px;">
         Voltar
       </button>
@@ -200,18 +220,16 @@
     </div>
   </div>
 
-  <!-- ========================================== -->
-  <!-- MODAL DE VINCULAR PIX                     -->
-  <!-- ========================================== -->
+  <!-- MODAL DE VINCULAR PIX -->
   <div id="modalVincularPix" class="escondida" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(8px); display: flex; justify-content: center; align-items: center; z-index: 10000;">
     <div style="background: #1e1e2f; padding: 25px; border-radius: 16px; width: 90%; max-width: 380px; text-align: center; border: 1px solid rgba(255, 255, 255, 0.1); color: white;">
-      <span style="font-size: 36px;">🔑</span>
+      
+      <i class="fa-solid fa-key" style="font-size: 36px; color: #25D366; margin-bottom: 10px;"></i>
       <h3 style="margin: 10px 0;">Vincular Chave Pix</h3>
       <p style="font-size: 13px; color: #aaa; margin-bottom: 15px;">
         Cadastre sua chave Pix para identificarmos seus pagamentos rapidamente.
       </p>
 
-      <!-- SELETOR DO TIPO DE CHAVE -->
       <div class="campo-input" style="margin-bottom: 12px; text-align: left;">
         <label for="tipoChavePix" style="font-size: 12px; color: #ddd; display: block; margin-bottom: 5px;">Tipo de Chave</label>
         <select id="tipoChavePix" style="width: 100%; padding: 10px; border-radius: 8px; background: rgba(255,255,255,0.08); color: white; border: 1px solid rgba(255,255,255,0.2); outline: none;">
@@ -222,17 +240,15 @@
         </select>
       </div>
 
-      <!-- CAMPO DA CHAVE -->
       <div class="campo-input" style="margin-bottom: 15px; text-align: left;">
         <label for="chavePixCliente" style="font-size: 12px; color: #ddd; display: block; margin-bottom: 5px;">Sua Chave Pix</label>
         <input type="text" id="chavePixCliente" placeholder="Digite sua chave Pix..." style="width: 100%; padding: 10px; border-radius: 8px; background: rgba(255,255,255,0.08); color: white; border: 1px solid rgba(255,255,255,0.2);">
       </div>
 
       <button id="btnSalvarPixCliente" style="width: 100%; background: #25D366; color: white; font-weight: bold; margin-bottom: 8px;">
-        💾 Salvar Chave Pix
+        <i class="fa-solid fa-floppy-disk"></i> Salvar Chave Pix
       </button>
 
-      <!-- BOTÃO DE FECHAR DO MODAL PIX -->
       <button onclick="fecharModal('modalVincularPix')" style="width: 100%; background: transparent; color: #888; border: 1px solid rgba(255,255,255,0.1); font-size: 12px;">
         Fechar
       </button>
