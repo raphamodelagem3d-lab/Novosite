@@ -66,30 +66,30 @@
   <!-- TELA 2 (Carrossel) -->
   <div id="tela2" class="escondida" style="position: relative;">
 
-<!-- PERFIL DO USUÁRIO -->
-<div id="perfilUsuario" style="position: absolute; top: 15px; right: 15px; display: flex; align-items: center; gap: 8px; background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(10px); padding: 6px 12px; border-radius: 25px; border: 1px solid rgba(255, 255, 255, 0.2); z-index: 1000;">
-  <div id="avatarBolinha" style="width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, #ff0055, #ffaa00); display: flex; align-items: center; justify-content: center; font-weight: bold; color: white; font-size: 14px; overflow: hidden; background-size: cover; background-position: center;">
-    U
-  </div>
-  <span id="nomeExibicao" style="font-weight: bold; font-size: 13px; color: white;">Usuário</span>
-  
-  <!-- BOTÃO MODO COMPUTADOR / CELULAR -->
-  <button id="btnAlternarModo" onclick="alternarModoExibicao()" style="background: rgba(255, 255, 255, 0.15); border: 1px solid rgba(255, 255, 255, 0.3); color: #fff; cursor: pointer; font-size: 12px; padding: 4px 10px; border-radius: 15px; width: auto; margin: 0; display: flex; align-items: center; gap: 5px;" title="Alternar Modo">
-    <i class="fa-solid fa-desktop"></i> <span>Modo PC</span>
-  </button>
+    <!-- PERFIL DO USUÁRIO -->
+    <div id="perfilUsuario" style="position: absolute; top: 15px; right: 15px; display: flex; align-items: center; gap: 8px; background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(10px); padding: 6px 12px; border-radius: 25px; border: 1px solid rgba(255, 255, 255, 0.2); z-index: 1000;">
+      <div id="avatarBolinha" style="width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, #ff0055, #ffaa00); display: flex; align-items: center; justify-content: center; font-weight: bold; color: white; font-size: 14px; overflow: hidden; background-size: cover; background-position: center;">
+        U
+      </div>
+      <span id="nomeExibicao" style="font-weight: bold; font-size: 13px; color: white;">Usuário</span>
+      
+      <!-- BOTÃO MODO COMPUTADOR / CELULAR -->
+      <button id="btnAlternarModo" onclick="alternarModoExibicao()" style="background: rgba(255, 255, 255, 0.15); border: 1px solid rgba(255, 255, 255, 0.3); color: #fff; cursor: pointer; font-size: 12px; padding: 4px 10px; border-radius: 15px; width: auto; margin: 0; display: flex; align-items: center; gap: 5px;" title="Alternar Modo">
+        <i class="fa-solid fa-desktop"></i> <span>Modo PC</span>
+      </button>
 
-  <button id="btnEditarNome" style="background: transparent; border: none; color: #ffaa00; cursor: pointer; font-size: 14px; padding: 2px 4px; width: auto; margin: 0; box-shadow: none;" title="Editar Nome">
-    <i class="fa-solid fa-pen-to-square"></i>
-  </button>
-  
-  <button id="btnVincularPix" onclick="document.getElementById('modalVincularPix').classList.remove('escondida')" style="background: transparent; border: none; color: #25D366; cursor: pointer; font-size: 14px; padding: 2px 4px; width: auto; margin: 0; box-shadow: none;" title="Vincular Pix">
-    <i class="fa-solid fa-key"></i>
-  </button>
+      <button id="btnEditarNome" style="background: transparent; border: none; color: #ffaa00; cursor: pointer; font-size: 14px; padding: 2px 4px; width: auto; margin: 0; box-shadow: none;" title="Editar Nome">
+        <i class="fa-solid fa-pen-to-square"></i>
+      </button>
+      
+      <button id="btnVincularPix" onclick="document.getElementById('modalVincularPix').classList.remove('escondida')" style="background: transparent; border: none; color: #25D366; cursor: pointer; font-size: 14px; padding: 2px 4px; width: auto; margin: 0; box-shadow: none;" title="Vincular Pix">
+        <i class="fa-solid fa-key"></i>
+      </button>
 
-  <button id="btnSair" style="background: transparent; border: none; color: #ff4d4d; cursor: pointer; font-size: 14px; padding: 2px 4px; width: auto; margin: 0; box-shadow: none;" title="Sair da Conta">
-    <i class="fa-solid fa-right-from-bracket"></i>
-  </button>
-</div>
+      <button id="btnSair" style="background: transparent; border: none; color: #ff4d4d; cursor: pointer; font-size: 14px; padding: 2px 4px; width: auto; margin: 0; box-shadow: none;" title="Sair da Conta">
+        <i class="fa-solid fa-right-from-bracket"></i>
+      </button>
+    </div>
 
     <h1>Bem-vindo ao meu site!!</h1>
 
@@ -130,6 +130,7 @@
     <h1>Bem-vindo à Tela 3!!</h1>
 
     <div class="caixa-container">
+      <!-- CARD 1: LOJA -->
       <div class="quadradinho">
         <img src="98F06098-1B06-45F7-9DCA-1EFA931209A8.jpeg" class="imagem-card" alt="Loja">       
         <span class="tag">TELA 3</span>
@@ -139,22 +140,20 @@
           Ir para a Loja <i class="fa-solid fa-arrow-right"></i>
         </button>
       </div>
+
+      <!-- CARD 2: MEUS PROJETOS (NOVO CARD CORRIGIDO) -->
+      <div class="quadradinho">
+        <img src="10CB4D82-FCB7-4365-B923-20AC45E58FB8.jpeg" class="imagem-card" alt="Meus Projetos">
+        <span class="tag">Novo</span>
+        <h3><i class="fa-solid fa-diagram-project"></i> Meus projetos</h3>
+        <p>Aqui é onde tem meus novos projetos, pode ser novos sites, e etc.</p>
+      </div>
     </div>
 
     <button id="btnVoltarTela3">
       <i class="fa-solid fa-arrow-left"></i> Voltar à Tela 2
     </button>
   </div>
-<!-- NOVO CARD -->
-<div class="quadradinho">
-  <!-- Imagem do novo card -->
-  <img src="10CB4D82-FCB7-4365-B923-20AC45E58FB8.jpeg" class="imagem-card">
-  
-  <span class="tag">Novo</span>
-  <h3>Meus projetos</h3>
-  <p>Aqui é aonde tem meus novos projetos, pode ser novos sites, e etc.</p>
-  
-
 
   <!-- TELA 4 (Loja de Serviços: Tarot, Edição & Pedidos) -->
   <div id="tela4" class="escondida">
@@ -184,7 +183,7 @@
           <input type="text" id="perguntaTarot" placeholder="Ex: O que o futuro reserva para o meu amor?">
         </div>
 
-        <!-- Botão de Pagamento com alinhamento na base -->
+        <!-- Botão de Pagamento -->
         <button onclick="bloquearPorPagamento('tarot')" style="background: #ffaa00; color: #000; font-weight: bold; margin-top: auto;">
           <i class="fa-solid fa-credit-card"></i> Finalizar Pedido (Pix)
         </button>
@@ -212,7 +211,7 @@
           <input type="text" id="detalhesVideo" placeholder="Ex: Link do Google Drive/Dropbox e ideia do projeto...">
         </div>
 
-        <!-- Botão de Pagamento com alinhamento na base -->
+        <!-- Botão de Pagamento -->
         <button onclick="bloquearPorPagamento('video')" style="background: #ffaa00; color: #000; font-weight: bold; margin-top: auto;">
           <i class="fa-solid fa-credit-card"></i> Finalizar Pedido (Pix)
         </button>
