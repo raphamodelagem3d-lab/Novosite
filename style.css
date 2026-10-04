@@ -304,41 +304,47 @@ button:active {
   animation: subirEntrada 0.6s ease-out forwards;
 }
 /* ==========================================
-   REGRAS PARA O MODO COMPUTADOR
+   REGRAS CORRIGIDAS PARA O MODO COMPUTADOR
    ========================================== */
 
-/* Limite e centralização da página no PC */
+/* Centraliza e limita a largura máxima no PC */
 body.modo-computador {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 40px 20px;
+  max-width: 1200px !important;
+  margin: 0 auto !important;
+  padding: 20px !important;
+  display: block !important;
 }
 
-/* Transforma o container de cards em uma Grid lado a lado */
+/* Remove a trava do position: fixed das telas para o layout fluir */
+body.modo-computador #tela2,
+body.modo-computador #tela3,
+body.modo-computador #tela4 {
+  position: relative !important;
+  width: 100% !important;
+  height: auto !important;
+  min-height: 100vh;
+  padding: 40px 20px !important;
+}
+
+/* Transforma o carrossel em Grid organizada */
 body.modo-computador .caixa-container {
   display: grid !important;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)) !important;
-  gap: 25px !important;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)) !important;
+  gap: 20px !important;
   overflow-x: visible !important;
-  justify-content: center;
-  padding: 20px 0;
+  padding: 20px 0 !important;
 }
 
-/* Ajusta a largura dos cartões individualmente */
+/* Redimensiona os cartões para preencher a Grid */
 body.modo-computador .quadradinho {
+  flex: none !important;
   width: 100% !important;
   min-width: 0 !important;
-  max-width: none !important;
+  max-width: 100% !important;
 }
 
-/* Centraliza o card de Login no PC */
-body.modo-computador .login-card {
-  max-width: 450px;
-  margin: 0 auto;
-}
-
-/* Ajusta modais para telas grandes */
-body.modo-computador #modalPagamento > div,
-body.modo-computador #modalVincularPix > div {
-  max-width: 480px;
+/* Centraliza a tela de Login no PC */
+body.modo-computador #tela1 {
+  margin: 60px auto;
+  max-width: 420px;
 }

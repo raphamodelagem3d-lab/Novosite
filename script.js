@@ -42,7 +42,7 @@ const googleProvider = new GoogleAuthProvider();
 
 // Variáveis globais de estado
 let pixDoClienteSalvo = null;
-let servicoSelecionado = "tarot"; // Guarda se é 'tarot' ou 'video'
+let servicoSelecionado = "tarot";
 
 
 // ==========================================
@@ -101,9 +101,6 @@ async function salvarPixCliente(tipo, chave) {
 
 
 // ==========================================
-// FUNÇÕES GLOBAIS (EXPOSTAS NO WINDOW PARA HTML)
-// ==========================================
-// ==========================================
 // MODO COMPUTADOR / CELULAR
 // ==========================================
 
@@ -128,14 +125,18 @@ window.alternarModoExibicao = function() {
   atualizarBotaoModo(ehComputador);
 };
 
-// Aplica o modo salvo automaticamente ao carregar a página
-document.addEventListener("DOMContentLoaded", () => {
+function aplicarModoSalvo() {
   const modoSalvo = localStorage.getItem("modoExibicao");
   if (modoSalvo === "computador") {
     document.body.classList.add("modo-computador");
     atualizarBotaoModo(true);
   }
-});
+}
+
+
+// ==========================================
+// FUNÇÕES GLOBAIS EXPOSTAS
+// ==========================================
 
 window.salvarPixCliente = salvarPixCliente;
 window.carregarPixCliente = carregarPixCliente;
@@ -164,7 +165,6 @@ window.copiarPix = function(chave) {
     .catch(() => alert("Erro ao copiar.\nSua chave Pix é:\n" + chave));
 };
 
-// Bloqueia e valida Pix antes de abrir o modal de pagamento
 window.bloquearPorPagamento = function(tipo = "tarot") {
   servicoSelecionado = tipo;
 
@@ -181,7 +181,6 @@ window.bloquearPorPagamento = function(tipo = "tarot") {
   if (modalPagamento) modalPagamento.classList.remove("escondida");
 };
 
-// Formata e envia a mensagem para o WhatsApp com base no serviço selecionado
 window.confirmarEEnviar = function() {
   const usuarioAtual = auth.currentUser;
   const nomeConta = usuarioAtual ? (usuarioAtual.displayName || usuarioAtual.email) : "Cliente";
@@ -236,7 +235,7 @@ window.fecharModal = function(idModal) {
 
 
 // ==========================================
-// MONITOR DE AUTENTICAÇÃO (SESSÃO)
+// MONITOR DE AUTENTICAÇÃO
 // ==========================================
 
 onAuthStateChanged(auth, async (usuario) => {
@@ -279,6 +278,13 @@ onAuthStateChanged(auth, async (usuario) => {
 // ==========================================
 
 function inicializarBotoes() {
+  // Aplicar modo salvo no localStorage
+  aplicarModoSalvo();
+
+  // Listener para o botão de Alternar Modo
+  document.getElementById("btnAlternarModo")?.addEventListener("click", () => {
+    window.alternarModoExibicao();
+  });
 
   // 1. Entrar (Email/Senha)
   document.getElementById("btnEntrar")?.addEventListener("click", async () => {
@@ -289,7 +295,6 @@ function inicializarBotoes() {
 
     try {
       await signInWithEmailAndPassword(auth, email, senha);
-      console.log("Login realizado com sucesso!");
     } catch (error) {
       console.error(error);
       if (["auth/invalid-credential", "auth/wrong-password", "auth/user-not-found"].includes(error.code)) {
@@ -302,7 +307,7 @@ function inicializarBotoes() {
     }
   });
 
-  // 2. Criar Conta (Email/Senha)
+  // 2. Criar Conta
   document.getElementById("btnCriarConta")?.addEventListener("click", async () => {
     const email = document.getElementById("usuario")?.value.trim();
     const senha = document.getElementById("senha")?.value;
@@ -333,7 +338,6 @@ function inicializarBotoes() {
 
     try {
       await signOut(auth);
-      console.log("Usuário deslogado com sucesso!");
     } catch (error) {
       console.error("Erro ao sair:", error);
       alert("❌ Erro ao encerrar sessão: " + error.message);
@@ -377,7 +381,7 @@ function inicializarBotoes() {
     }
   });
 
-  // 6. Salvar Chave Pix no Modal
+  // 6. Salvar Chave Pix
   document.getElementById("btnSalvarPixCliente")?.addEventListener("click", () => {
     const tipo = document.getElementById("tipoChavePix")?.value;
     const chave = document.getElementById("chavePixCliente")?.value;
@@ -387,10 +391,8 @@ function inicializarBotoes() {
   // 7. Navegação de Telas
   document.getElementById("btnipmlbb")?.addEventListener("click", () => window.trocarTela("tela2", "tela3"));
   document.getElementById("btnVoltarTela3")?.addEventListener("click", () => window.trocarTela("tela3", "tela2"));
-
 }
 
-// Garante a execução mesmo que o HTML já esteja carregado antes do módulo terminar
 if (document.readyState === "loading") {
   document.addEventListener("DOMContentLoaded", inicializarBotoes);
 } else {
