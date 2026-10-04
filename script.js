@@ -100,8 +100,11 @@ async function salvarPixCliente(tipo, chave) {
 
 
 // ==========================================
-// FUNÇÕES GLOBAIS (NAVEGAÇÃO E AÇÕES)
+// FUNÇÕES GLOBAIS (EXPOSTAS NO WINDOW PARA HTML)
 // ==========================================
+
+window.salvarPixCliente = salvarPixCliente;
+window.carregarPixCliente = carregarPixCliente;
 
 window.trocarTela = function(telaAtual, proximaTela) {
   const atual = document.getElementById(telaAtual);
@@ -166,8 +169,8 @@ window.confirmarEEnviar = function() {
   const linkWhatsapp = `https://wa.me/5511969055944?text=${encodeURIComponent(mensagem)}`;
   window.open(linkWhatsapp, "_blank");
 
-  if (typeof desbloquearTela === "function") {
-    desbloquearTela();
+  if (typeof window.desbloquearTela === "function") {
+    window.desbloquearTela();
   }
 };
 
@@ -178,6 +181,7 @@ window.fecharModal = function(idModal) {
   }
 };
 
+
 // ==========================================
 // MONITOR DE AUTENTICAÇÃO (SESSÃO)
 // ==========================================
@@ -186,7 +190,6 @@ onAuthStateChanged(auth, async (usuario) => {
   if (usuario) {
     console.log("Usuário logado:", usuario.email);
 
-    // Carrega o Pix salvo no Realtime Database para esse usuário
     await carregarPixCliente(usuario.uid);
 
     const nomeExibicao = document.getElementById("nomeExibicao");
@@ -219,10 +222,10 @@ onAuthStateChanged(auth, async (usuario) => {
 
 
 // ==========================================
-// EVENT LISTENERS (DOM LOADED)
+// INICIALIZAÇÃO DE EVENTOS DOS BOTÕES
 // ==========================================
 
-document.addEventListener("DOMContentLoaded", () => {
+function inicializarBotoes() {
 
   // 1. Entrar (Email/Senha)
   document.getElementById("btnEntrar")?.addEventListener("click", async () => {
@@ -269,7 +272,8 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     }
   });
-  // 7. Botão Sair (Logout)
+
+  // 3. Sair (Logout)
   document.getElementById("btnSair")?.addEventListener("click", async () => {
     const confirmar = confirm("Tem certeza que deseja sair da sua conta?");
     if (!confirmar) return;
@@ -283,8 +287,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-
-  // 3. Login com Google
+  // 4. Login com Google
   document.getElementById("btnGoogle")?.addEventListener("click", async () => {
     try {
       const result = await signInWithPopup(auth, googleProvider);
@@ -297,7 +300,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // 4. Editar Nome
+  // 5. Editar Nome
   document.getElementById("btnEditarNome")?.addEventListener("click", async () => {
     const usuarioAtual = auth.currentUser;
     if (!usuarioAtual) return alert("Você precisa estar logado!");
@@ -307,7 +310,9 @@ document.addEventListener("DOMContentLoaded", () => {
     if (novoNome && novoNome.trim() !== "") {
       try {
         await updateProfile(usuarioAtual, { displayName: novoNome.trim() });
-        document.getElementById("nomeExibicao").innerText = novoNome.trim();
+        const elNome = document.getElementById("nomeExibicao");
+        if (elNome) elNome.innerText = novoNome.trim();
+        
         const avatar = document.getElementById("avatarBolinha");
         if (avatar && !usuarioAtual.photoURL) {
           avatar.innerText = novoNome.trim().charAt(0).toUpperCase();
@@ -319,15 +324,22 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // 5. Salvar Chave Pix no Modal
+  // 6. Salvar Chave Pix no Modal
   document.getElementById("btnSalvarPixCliente")?.addEventListener("click", () => {
     const tipo = document.getElementById("tipoChavePix")?.value;
     const chave = document.getElementById("chavePixCliente")?.value;
     salvarPixCliente(tipo, chave);
   });
 
-  // 6. Navegação de Telas
-  document.getElementById("btnipmlbb")?.addEventListener("click", () => trocarTela("tela2", "tela3"));
-  document.getElementById("btnVoltarTela3")?.addEventListener("click", () => trocarTela("tela3", "tela2"));
+  // 7. Navegação de Telas
+  document.getElementById("btnipmlbb")?.addEventListener("click", () => window.trocarTela("tela2", "tela3"));
+  document.getElementById("btnVoltarTela3")?.addEventListener("click", () => window.trocarTela("tela3", "tela2"));
 
-});
+}
+
+// Garante a execução mesmo que o HTML já esteja carregado antes do módulo terminar
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", inicializarBotoes);
+} else {
+  inicializarBotoes();
+}

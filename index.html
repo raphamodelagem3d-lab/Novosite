@@ -36,8 +36,8 @@
         >
       </div>
 
-      <!-- ENTRAR -->
-      <button type="button" id="btnComecar">Entrar</button>
+      <!-- ENTRAR (ID corrigido para btnEntrar) -->
+      <button type="button" id="btnEntrar">Entrar</button>
 
       <!-- CRIAR CONTA -->
       <button type="button" id="btnCriarConta">Criar conta</button>
@@ -58,27 +58,15 @@
   <!-- TELA 2 (Carrossel) -->
   <div id="tela2" class="escondida" style="position: relative;">
 
-    <!-- PERFIL DO USUÁRIO (Canto Superior Direito da Tela 2) -->
+    <!-- PERFIL DO USUÁRIO (Canto Superior Direito) -->
     <div id="perfilUsuario" style="position: absolute; top: 15px; right: 15px; display: flex; align-items: center; gap: 8px; background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(10px); padding: 6px 12px; border-radius: 25px; border: 1px solid rgba(255, 255, 255, 0.2); z-index: 1000;">
       <div id="avatarBolinha" style="width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, #ff0055, #ffaa00); display: flex; align-items: center; justify-content: center; font-weight: bold; color: white; font-size: 14px; overflow: hidden; background-size: cover; background-position: center;">
-        
-<!-- PERFIL DO USUÁRIO (Canto Superior Direito da Tela 2) -->
-<div id="perfilUsuario" style="position: absolute; top: 15px; right: 15px; display: flex; align-items: center; gap: 8px; background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(10px); padding: 6px 12px; border-radius: 25px; border: 1px solid rgba(255, 255, 255, 0.2); z-index: 1000;">
-  <div id="avatarBolinha" style="width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, #ff0055, #ffaa00); display: flex; align-items: center; justify-content: center; font-weight: bold; color: white; font-size: 14px; overflow: hidden; background-size: cover; background-position: center;">
-    U
-  </div>
-  <span id="nomeExibicao" style="font-weight: bold; font-size: 13px; color: white;">Usuário</span>
-  <button id="btnEditarNome" style="background: transparent; border: none; color: #ffaa00; cursor: pointer; font-size: 14px; padding: 2px 4px; width: auto; margin: 0; box-shadow: none;" title="Editar Nome">✏️</button>
-  <button id="btnVincularPix" style="background: transparent; border: none; color: #25D366; cursor: pointer; font-size: 14px; padding: 2px 4px; width: auto; margin: 0; box-shadow: none;" title="Vincular Pix">🔑</button>
-
-  <!-- BOTÃO DE SAIR (NOVO) -->
-  <button id="btnSair" style="background: transparent; border: none; color: #ff4d4d; cursor: pointer; font-size: 14px; padding: 2px 4px; width: auto; margin: 0; box-shadow: none;" title="Sair da Conta">🚪</button>
-</div>
-
+        U
       </div>
       <span id="nomeExibicao" style="font-weight: bold; font-size: 13px; color: white;">Usuário</span>
       <button id="btnEditarNome" style="background: transparent; border: none; color: #ffaa00; cursor: pointer; font-size: 14px; padding: 2px 4px; width: auto; margin: 0; box-shadow: none;" title="Editar Nome">✏️</button>
-      <button id="btnVincularPix" style="background: transparent; border: none; color: #25D366; cursor: pointer; font-size: 14px; padding: 2px 4px; width: auto; margin: 0; box-shadow: none;" title="Vincular Pix">🔑</button>
+      <button id="btnVincularPix" onclick="document.getElementById('modalVincularPix').classList.remove('escondida')" style="background: transparent; border: none; color: #25D366; cursor: pointer; font-size: 14px; padding: 2px 4px; width: auto; margin: 0; box-shadow: none;" title="Vincular Pix">🔑</button>
+      <button id="btnSair" style="background: transparent; border: none; color: #ff4d4d; cursor: pointer; font-size: 14px; padding: 2px 4px; width: auto; margin: 0; box-shadow: none;" title="Sair da Conta">🚪</button>
     </div>
 
     <h1>Bem-vindo ao meu site!!</h1>
@@ -110,7 +98,7 @@
       </div>
     </div>
 
-    <button id="btnVoltar">Voltar ao Início</button>
+    <button id="btnVoltar" onclick="trocarTela('tela2', 'tela1')">Voltar ao Início</button>
   </div>
 
   <!-- TELA 3 -->
@@ -205,7 +193,7 @@
       </button>
 
       <!-- BOTÃO DE FECHAR DO MODAL PAGAMENTO -->
-      <button onclick="document.getElementById('modalPagamento').classList.add('escondida')" style="width: 100%; background: transparent; color: #888; border: 1px solid rgba(255,255,255,0.1); font-size: 12px;">
+      <button onclick="fecharModal('modalPagamento')" style="width: 100%; background: transparent; color: #888; border: 1px solid rgba(255,255,255,0.1); font-size: 12px;">
         Voltar
       </button>
 
@@ -245,7 +233,7 @@
       </button>
 
       <!-- BOTÃO DE FECHAR DO MODAL PIX -->
-      <button onclick="document.getElementById('modalVincularPix').classList.add('escondida')" style="width: 100%; background: transparent; color: #888; border: 1px solid rgba(255,255,255,0.1); font-size: 12px;">
+      <button onclick="fecharModal('modalVincularPix')" style="width: 100%; background: transparent; color: #888; border: 1px solid rgba(255,255,255,0.1); font-size: 12px;">
         Fechar
       </button>
     </div>
